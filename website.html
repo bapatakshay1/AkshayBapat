@@ -1,0 +1,173 @@
+<html>
+<head>
+
+<link href="https://fonts.google.com/specimen/Playfair+Display" rel="stylesheet" type="text/css"/>
+<link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css"/>
+<style>
+  .banger_txt {
+    font-family: Bangers, 'Playfair Display', Courier, monospace;
+  }
+
+  .abel_txt {
+    font-family: Abel, 'Courier New', Courier, monospace;
+    font-weight: bold;
+  }
+
+  .tisa_txt {
+    font-family: ff-tisa-sans-web-pro, sans-serif;
+  }
+
+  .light-blue-background {
+    Background-image: url('hi.jpg');
+  }
+
+  .resume_background {
+    background-color: #000000
+  }
+
+  .github_background {
+    background-color: #323232
+  }
+
+  .linkedin_background {
+    background-color: #4c4c4c
+  }
+
+  .medium_background {
+    background-color: #191919
+  }
+
+  .projects_background {
+    background-color: #666666
+  }
+
+  .shadowed {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  }
+
+  .link_block {
+    display: block;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 500px;
+    text-align: center;
+    text-decoration: none;
+    font-size: large;
+    color:White
+  }
+
+  .centered-block {
+    display: block;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .quarter-width {
+    width: 25%;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .centered-image {
+    display: block;
+    height: inherit;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .centered-text {
+    text-align: center;
+  }
+	form{
+	margin-top: 50px;
+	transitionL all 4s ease-in-out;	
+}
+.form-control{
+	width=600px;
+	background: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid gray;
+	color: #fff;
+	font-size: 18px;
+	margin-bottom: 16px;
+}
+input{
+	height: 45 px;
+}
+form .submit{
+	backgroundL #ff5722;
+	border-color: transparent;
+	color: #fff;
+	font-size: 20px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	height: 50px;
+	margin-top: 20px;
+}
+form .submit:hover{
+	background-color: #f344336;
+	cursor: pointer;
+}
+</style>
+</head>
+
+<body class="light-blue-background centered-block abel_txt">
+<div class="centered-block shadowed">
+<h1 class="centered-text" style="padding-top: 15px;">
+      Akshay Bapat
+    </h1>
+<p class="centered-text">
+      Sophomore Computer Engineering student at the University of Illinois Urbana-Champaign
+    </p>
+<a>
+<img alt="Akshay Bapat" class="centered-block full-width" src="me.jpg"/>
+</a>
+</div>
+<br/>
+<!-- GitHub Link Block -->
+<div class="centered-block shadowed">
+<a class="link_block resume_background" href="resumes/resumes.htm" target="_blank">
+<h3>
+        My Resume
+      </h3>
+</a>
+<a class="link_block medium_background" href="#" target="_blank">
+<h3>
+        My Medium Page
+      </h3>
+</a>
+<a class="link_block github_background" href="#" target="_blank">
+<h3>
+        My GitHub
+      </h3>
+</a>
+<a class="link_block linkedin_background" href="https://www.linkedin.com/in/akshayabapat/" target="_blank">
+<h3>
+        My LinkedIn
+      </h3>
+</a>
+<a class="link_block projects_background" href="notebooks/notebooks.htm" target="_blank">
+<h3>
+        My Projects
+      </h3>
+</a>
+</div>
+<br/>
+<div class="contact-form">
+	<form id="contact-form" method="post" action ="contact-form-handler.php">
+	<input name="name" type="text" class="form-control" placeholder="Your Name" required>
+	<br>
+	<input name="email" type'"email" class="form-control" placeholder="Your Email" required><br>
+	
+		<textarea name="message" class="form-control" placeholder="Message" row="4" required></textarea><br>
+		<input type="submit" class="form-control submit" value="SEND MESSAGE">
+	</form>
+	</div?
+</div>
+</body>
+</html>
