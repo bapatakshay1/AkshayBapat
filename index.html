@@ -1,169 +1,652 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
-<link href="https://fonts.google.com/specimen/Playfair+Display" rel="stylesheet" type="text/css"/>
-<link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css"/>
-<style>
-  .banger_txt {
-    font-family: Bangers, 'Playfair Display', Courier, monospace;
-  }
-
-  .abel_txt {
-    font-family: Abel, 'Courier New', Courier, monospace;
-    font-weight: bold;
-  }
-
-  .tisa_txt {
-    font-family: ff-tisa-sans-web-pro, sans-serif;
-  }
-
-  .light-blue-background {
-    Background-image: url('hi.jpg');
-  }
-
-  .resume_background {
-    background-color: #000000
-  }
-
-  .github_background {
-    background-color: #323232
-  }
-
-  .linkedin_background {
-    background-color: #4c4c4c
-  }
-
-  .medium_background {
-    background-color: #191919
-  }
-
-  .projects_background {
-    background-color: #666666
-  }
-
-  .shadowed {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-  }
-
-  .link_block {
-    display: block;
-    margin: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 500px;
-    text-align: center;
-    text-decoration: none;
-    font-size: large;
-    color:White
-  }
-
-  .centered-block {
-    display: block;
-    width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .quarter-width {
-    width: 25%;
-  }
-
-  .full-width {
-    width: 100%;
-  }
-
-  .centered-image {
-    display: block;
-    height: inherit;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .centered-text {
-    text-align: center;
-  }
-	form{
-	margin-top: 50px;
-	transitionL all 4s ease-in-out;	
-}
-.form-control{
-	width=600px;
-	background: transparent;
-	border: none;
-	outline: none;
-	border-bottom: 1px solid gray;
-	color: #fff;
-	font-size: 18px;
-	margin-bottom: 16px;
-}
-input{
-	height: 45 px;
-}
-form .submit{
-	backgroundL #ff5722;
-	border-color: transparent;
-	color: #fff;
-	font-size: 20px;
-	font-weight: bold;
-	letter-spacing: 2px;
-	height: 50px;
-	margin-top: 20px;
-}
-form .submit:hover{
-	background-color: #f344336;
-	cursor: pointer;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshay Bapat | Software Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: linear-gradient(to bottom right, #0f172a, #1e1b4b, #0f172a);
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        nav {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+        }
+        
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            padding-bottom: 16px;
+        }
+        
+        nav .logo {
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+        }
+        
+        nav .links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #a5b4fc;
+        }
+        
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 64px;
+        }
+        
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 48px;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .profile-container {
+                flex-direction: row;
+            }
+        }
+        
+        .profile-image {
+            width: 256px;
+            height: 256px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+            flex-shrink: 0;
+        }
+        
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-content {
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .profile-content {
+                text-align: left;
+            }
+        }
+        
+        .profile-heading {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 32px;
+            background: linear-gradient(to right, white, #c7d2fe, white);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        @media (min-width: 768px) {
+            .profile-heading {
+                font-size: 36px;
+            }
+        }
+        
+        .profile-description {
+            font-size: 18px;
+            color: #d1d5db;
+            margin-bottom: 48px;
+            line-height: 1.7;
+        }
+        
+        @media (min-width: 768px) {
+            .profile-description {
+                font-size: 22px;
+            }
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        
+        @media (min-width: 768px) {
+            .social-links {
+                justify-content: flex-start;
+            }
+        }
+        
+        .social-link {
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover {
+            color: #a5b4fc;
+            transform: scale(1.1);
+        }
+        
+        #experience {
+            padding: 80px 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        
+        .experience-grid {
+            display: grid;
+            gap: 32px;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .experience-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .experience-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s;
+            transform: translateY(0);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .experience-card:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .experience-icon {
+            color: #a5b4fc;
+        }
+        
+        .experience-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .experience-company {
+            font-weight: 500;
+            color: #a5b4fc;
+            margin-bottom: 8px;
+        }
+        
+        .experience-date {
+            color: #9ca3af;
+            margin-bottom: 4px;
+        }
+        
+        .experience-location {
+            color: #9ca3af;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+        
+        .experience-description {
+            color: #9ca3af;
+        }
+        
+        .experience-description ul {
+            padding-left: 20px;
+        }
+        
+        .experience-description li {
+            margin-bottom: 8px;
+        }
+        
+        #projects {
+            padding: 80px 0;
+        }
+        
+        .projects-grid {
+            display: grid;
+            gap: 32px;
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .project-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s;
+            transform: translateY(0);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .project-card:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+        }
+        
+        .project-icon {
+            color: #a5b4fc;
+            margin-bottom: 16px;
+        }
+        
+        .project-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .project-tech {
+            color: #a5b4fc;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+        
+        .project-description {
+            color: #9ca3af;
+        }
+        
+        #contact {
+            padding: 80px 0;
+            background-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
+        }
+        
+        .contact-form {
+            max-width: 512px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            color: white;
+            margin-bottom: 8px;
+        }
+        
+        .form-input,
+        .form-textarea {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: white;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            background-color: #4f46e5;
+            color: white;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-button:hover {
+            background-color: #4338ca;
+            transform: scale(1.05);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 24px 0;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 48px;
+            margin-bottom: 48px;
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (min-width: 768px) {
+            .skills-container {
+                justify-content: flex-start;
+            }
+        }
+        
+        .skill-tag {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 14px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .skill-tag:hover {
+            background-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .education-section {
+            margin-top: 32px;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+        
+        .education-item {
+            margin-bottom: 24px;
+        }
+        
+        .education-school {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .education-degree {
+            color: #a5b4fc;
+        }
+    </style>
 </head>
-
-<body class="light-blue-background centered-block abel_txt">
-<div class="centered-block shadowed">
-<h1 class="centered-text" style="padding-top: 15px;">
-      Akshay Bapat
-    </h1>
-<p class="centered-text">
-      Sophomore Computer Engineering student at the University of Illinois Urbana-Champaign
-    </p>
-<a>
-<img alt="Akshay Bapat" class="centered-block full-width" src="me.jpg"/>
-</a>
-</div>
-<br/>
-<!-- GitHub Link Block -->
-<div class="centered-block shadowed">
-<a class="link_block resume_background" href="https://github.com/bapatakshay1/AkshayBapat/blob/main/AkshayB.docx" target="_blank">
-<h3>
-        My Resume
-      </h3>
-</a>
-<a class="link_block medium_background" href="https://bapat-akshay1.medium.com/" target="_blank">
-<h3>
-        My Medium Page
-      </h3>
-</a>
-<a class="link_block github_background" href="https://github.com/bapatakshay1" target="_blank">
-<h3>
-        My GitHub
-      </h3>
-</a>
-<a class="link_block linkedin_background" href="https://www.linkedin.com/in/akshayabapat/" target="_blank">
-<h3>
-        My LinkedIn
-      </h3>
-</a>
-
-</div>
-<br/>
-<div class="contact-form">
-	<form id="contact-form" method="post" action ="contact-form-handler.php">
-	<input name="name" type="text" class="form-control" placeholder="Your Name" required>
-	<br>
-	<input name="email" type'"email" class="form-control" placeholder="Your Email" required><br>
-	
-		<textarea name="message" class="form-control" placeholder="Message" row="4" required></textarea><br>
-		<input type="submit" class="form-control submit" value="SEND MESSAGE">
-	</form>
-	</div?
-</div>
-</body>
-</html>
+<body>
+    <nav>
+        <div class="container">
+            <span class="logo">Akshay Bapat</span>
+            <div class="links">
+                <a href="#home">Home</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <section id="home" class="min-h-screen flex items-center pt-16">
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-image">
+                    <img src="/api/placeholder/256/256" alt="Akshay Bapat">
+                </div>
+                <div class="profile-content">
+                    <h1 class="profile-heading">Hey, I'm Akshay - A Software Engineer II & ML Engineer from Princeton, NJ</h1>
+                    <p class="profile-description">I specialize in architecting large-scale ML systems and building distributed computing solutions. With experience at Northern Trust, Oracle, and John Deere, I've developed expertise in automated code migration, ML pipelines, and event-driven microservices. Whether it's reducing manual conversion time by 85% across 500K+ lines of legacy code or handling 100M+ daily trading data points, I'm passionate about leveraging cutting-edge technologies to drive efficiency and innovation.</p>
+                    
+                    <div class="social-links">
+                        <a href="https://github.com/AkshayBapat" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                                <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/akshayabapat/" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect width="4" height="12" x="2" y="9"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                        <a href="mailto:Bapat.akshay1@gmail.com" class="social-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                            </svg>
+                        </a>
+                        <a href="tel:6099649695" class="social-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <div class="education-section">
+                        <div class="education-item">
+                            <div class="education-school">Georgia Tech</div>
+                            <div class="education-degree">MS Computer Science</div>
+                        </div>
+                        <div class="education-item">
+                            <div class="education-school">University of Illinois at Urbana-Champaign</div>
+                            <div class="education-degree">BS Computer Engineering</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skills-container">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">Azure</span>
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">Autogen</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">Databricks</span>
+                        <span class="skill-tag">Spark</span>
+                        <span class="skill-tag">Vertex AI</span>
+                        <span class="skill-tag">LangChain</span>
+                        <span class="skill-tag">GPT-4</span>
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">Kafka</span>
+                        <span class="skill-tag">RAG</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title">Work Experience</h2>
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
+                            <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
+                            <path d="M16 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a1 1 0 0 0-1-1"></path>
+                            <path d="m9 13 2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="experience-title">Software Engineer II | Scrum Master</h3>
+                    <p class="experience-company">Northern Trust</p>
+                    <p class="experience-date">May 2023 - Present</p>
+                    <p class="experience-location">Chicago, IL</p>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Architected large-scale ML system for automated code migration using distributed agents, reducing manual conversion time by 85% across 500K+ lines of legacy code</li>
+                            <li>Designed and deployed production-grade ML pipelines handling 100M+ daily trading data points, achieving 30% latency reduction and 99.9% uptime</li>
+                            <li>Led migration to modern DevOps practices by implementing Liquibase CI/CD pipeline ensuring SQL consistency across environments</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
+                            <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
+                            <path d="M16 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a1 1 0 0 0-1-1"></path>
+                            <path d="m9 13 2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="experience-title">Technical Product Management Intern</h3>
+                    <p class="experience-company">Oracle</p>
+                    <p class="experience-date">May 2022 - August 2022</p>
+                    <p class="experience-location">Seattle, WA</p>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Designed dashboard used for Oracle CRM Billing embedded w/ invoice hyperlink using OCI Data Pipeline implementing dual-write data migration workflow</li>
+                            <li>Developed automated data reporting to optimize product KPI tracking saving over 1800 minutes per week for PM's</li>
+                            <li>Established CI/CD pipelines with Kubernetes to enable automated security scanning compliance checks</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
+                            <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
+                            <path d="M16 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a1 1 0 0 0-1-1"></path>
+                            <path d="m9 13 2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="experience-title">Data and Analytics Intern</h3>
+                    <p class="experience-company">John Deere</p>
+                    <p class="experience-date">August 2021 - November 2021</p>
+                    <p class="experience-location">Waterloo, IA</p>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Deployed ML Python script within Alteryx utilizing ODBC connection for SAP Hana Data pipeline along with LSTM networks for predicting tractor drivetrain failure metrics</li>
+                            <li>Ran Time Series Analysis given heat loss impact on engine power generation over time to optimize machine utility and crop harvest by over 50%</li>
+                            <li>Converted end-to-end analytics tests into Terraform infrastructure-as-code, enhancing automation</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="experience-card">
+                    <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
+                            <rect width="18" height="10" x="3" y="5" rx="1"></rect>
+                            <circle cx="8" cy="10" r="1"></circle>
+                            <circle cx="12" cy="10" r="1"></circle>
+                            <circle cx="16" cy="10" r="1"></circle>
+                            <path d="M10 2v3"></path>
+                            <path d="M14 2v3"></path>
+                            <path d="M12 14v8"></path>
+                            <path d="M8 18h8"></path>
+                        </svg>
+                    </div>
+                    <h3 class="experience-title">Key Technologies</h3>
+                    <p class="experience-company">Technical Expertise</p>
+                    <div class="experience-description">
+                        <ul>
+                            <li>Machine Learning: Implemented large-scale ML systems using Autogen, LangChain, GPT-4, and custom ML pipelines</li>
+                            <li>Cloud & Infrastructure: Extensive experience with Databricks, Spark, Vertex AI, Kubernetes, and Azure</li>
+                            <li>Backend Development: Built robust microservices with Spring Boot, Java, and event-driven architecture using Kafka</li>
+                            <li>Database & DevOps: Optimized SQL performance across Oracle, PostgreSQL databases with modern CI/CD practices</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
+                        <path d="m18 16 4-4-4-4"></path>
+                        <path d="m6 8-4 4 4 4"></path>
+                        <path d="m14.5 4-5 16"></path>
+                    </svg>
+                    <h3 class="project-title">NaiveBayes/KNN/LR</h3>
+                    <p class="project-tech">Python</p>
+                    <p class="project-description">Implemented and tested KNN, Naïve Bayes, and LR on dataset of 60,000 training images and 10,000 test images for digit classification reporting error of less than 2%. Optimized PReLU MLP with 4 layers and 256 nodes per layer on MRI image reconstruction with ∝ being learned from training data using backpropagation to minimize loss function.</p>
+                </div>
+                
+                <div class="project-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
+                        <path d="m18 16 4-4-4-4"></path>
+                        <path d="m6 8-4 4 4 4"></path>
+                        <path d="m14.5 4-5 16"></path>
+                    </svg>
+                    <h3 class="project-title">AI Text Generator</h3>
+                    <p class="project-tech">Python / HuggingFace / GPT2</p>
+                    <p class="project-description">Leveraged LLM using Huggingface utilizing techniques including attention mechanisms, self-attention, and transformer architecture to build an AI text generator. AI text generator can infer semantics and contextualize information based on input prompts.</p>
+                </div>
+                
+                <div class="project-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
+                        <path d="m18 16 4-4-4-4"></path>
+                        <path d="m6 8-4 4 4 4"></path>
+                        <path d="m14.5 4-5 16"></path>
+                    </svg>
+                    <h3 class="project-title">Linux OS-ECE391</h3>
+                    <p class="project-tech">ASML / C++</p>
+                    <p class="project-description">Built Linux like operating system incorporating GDT, IDT, basic paging support for tasks, separate 4 MB pages for the kernel and applications. Included device initialization, system call interface along with ten system calls.</p>
+                </div>
+                
+                <div class="project-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
+                        <path d="m18 16 4-4-4-4"></path>
+                        <path d="m6 8-4 4 4 4"></path>
+                        <path d="m14.5 4-5 16"></path>
+                    </svg>
+                    <h3 class="project-title">BlackScoles-MonteCarlo</h3>
+                    <p class="project-tech">Python (Pandas, SciPy, Seaborn)</p>
+                    <p class="project-
