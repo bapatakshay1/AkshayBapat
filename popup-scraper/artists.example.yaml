@@ -1,0 +1,9 @@
+# List the Instagram handles (without the leading @) of the artists whose
+# pop-ups you want to track. `follow` will follow all of them; `run`/`watch`
+# will read their recent posts and analyze each image.
+#
+# Copy this to artists.yaml and edit.
+artists:
+  - some_ceramic_artist
+  - local_jewelry_maker
+  - vintage_popup_seller
