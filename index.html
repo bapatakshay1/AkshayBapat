@@ -432,8 +432,16 @@
         }
 
         /* ---- Parallax background (Roku-screensaver-style drifting orbs) ---- */
-        .parallax-bg {
-            position: fixed;
+        /* Each section gets its own orb container, scoped to that section's
+           own box (each section already has position:relative). Deliberately
+           NOT a single page-spanning position:fixed layer: (1) Safari/WebKit
+           has a known bug where a fixed element containing filter:blur()
+           children gets cached as a static bitmap and stops repainting
+           during scroll, and (2) percentage-based orb positions relative to
+           the whole (tall) document land far too sparsely per screen versus
+           relative to each section's own, much shorter box. */
+        .section-orbs {
+            position: absolute;
             inset: 0;
             overflow: hidden;
             z-index: 0;
@@ -545,14 +553,6 @@
     </style>
 </head>
 <body>
-    <div class="parallax-bg" aria-hidden="true">
-        <div class="parallax-layer" data-speed="0.15"><div class="orb orb-1"></div></div>
-        <div class="parallax-layer" data-speed="0.35"><div class="orb orb-2"></div></div>
-        <div class="parallax-layer" data-speed="0.55"><div class="orb orb-3"></div></div>
-        <div class="parallax-layer" data-speed="0.25"><div class="orb orb-4"></div></div>
-        <div class="parallax-layer" data-speed="0.45"><div class="orb orb-5"></div></div>
-    </div>
-
     <nav>
         <div class="container">
             <span class="logo">Akshay Bapat</span>
@@ -567,6 +567,10 @@
     </nav>
     
     <section id="home" class="min-h-screen flex items-center pt-16">
+        <div class="section-orbs" aria-hidden="true">
+            <div class="parallax-layer" data-speed="0.15"><div class="orb orb-1"></div></div>
+            <div class="parallax-layer" data-speed="0.3"><div class="orb orb-2"></div></div>
+        </div>
         <div class="container">
             <div class="profile-container">
                 <!-- Profile Card will be rendered here -->
@@ -653,6 +657,9 @@
     </section>
     
     <section id="experience">
+        <div class="section-orbs" aria-hidden="true">
+            <div class="parallax-layer" data-speed="0.2"><div class="orb orb-3"></div></div>
+        </div>
         <div class="container">
             <h2 class="section-title">Work Experience</h2>
             <div class="experience-grid">
@@ -831,6 +838,10 @@
     </section>
     
     <section id="projects">
+        <div class="section-orbs" aria-hidden="true">
+            <div class="parallax-layer" data-speed="0.35"><div class="orb orb-4"></div></div>
+            <div class="parallax-layer" data-speed="0.25"><div class="orb orb-5"></div></div>
+        </div>
         <div class="container">
             <h2 class="section-title">Featured Projects</h2>
             <div class="projects-grid">
@@ -1208,7 +1219,15 @@
                 var scrollY = window.pageYOffset || document.documentElement.scrollTop;
                 layers.forEach(function (layer) {
                     var speed = parseFloat(layer.getAttribute('data-speed')) || 0.2;
-                    layer.style.transform = 'translate3d(0, ' + (scrollY * speed) + 'px, 0)';
+                    // Each .section-orbs container is position:absolute (scrolls
+                    // with the page like normal content) rather than fixed, so a
+                    // layer with no extra transform would already move at "speed
+                    // 1" — this holds regardless of which section it's nested in,
+                    // since the counter-offset only depends on document scrollY.
+                    // To make it appear to move at the given fraction of scroll
+                    // speed instead (0 = stays put on screen, 1 = moves like
+                    // normal content), counter-offset by scrollY * (1 - speed).
+                    layer.style.transform = 'translate3d(0, ' + (scrollY * (1 - speed)) + 'px, 0)';
                 });
                 ticking = false;
             }
