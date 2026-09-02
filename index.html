@@ -532,8 +532,13 @@
             }
         }
 
-        /* Everything else needs to sit above the fixed background layer */
-        nav, #home, #experience, #projects, #contact, footer {
+        /* Everything else needs to sit above the fixed background layer.
+           nav already has its own position:fixed above — only raise its
+           z-index here, don't touch position or it loses its stickiness. */
+        nav {
+            z-index: 51;
+        }
+        #home, #experience, #projects, #contact, footer {
             position: relative;
             z-index: 1;
         }
