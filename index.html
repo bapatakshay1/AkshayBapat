@@ -8,6 +8,13 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lenis: smooth/weighted scroll -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css">
+    <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+    <!-- Editorial display font, paired with the existing Inter body text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="ProfileCard.css">
     <style>
         * {
@@ -50,8 +57,10 @@
         }
         
         nav .logo {
-            font-weight: bold;
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            font-weight: 700;
             font-size: 20px;
+            letter-spacing: -0.01em;
             color: white;
         }
         
@@ -65,8 +74,24 @@
             text-decoration: none;
             transition: color 0.3s;
         }
-        
+
         nav a:hover {
+            color: #a5b4fc;
+        }
+
+        .nav-num {
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            font-size: 12px;
+            color: #6b7280;
+            margin-right: 6px;
+            transition: color 0.3s;
+        }
+
+        .nav-link.active {
+            color: #a5b4fc;
+        }
+
+        .nav-link.active .nav-num {
             color: #a5b4fc;
         }
         
@@ -120,18 +145,24 @@
         }
         
         .profile-heading {
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
             font-size: 40px;
-            font-weight: bold;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
             margin-bottom: 32px;
             background: linear-gradient(to right, white, #c7d2fe, white);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        
+
+        /* Previously this rule shrank the heading on desktop (36px, smaller
+           than mobile's 40px) — inverted for a bigger, more editorial hero
+           on larger screens instead. */
         @media (min-width: 768px) {
             .profile-heading {
-                font-size: 36px;
+                font-size: 68px;
             }
         }
         
@@ -178,10 +209,35 @@
         }
         
         .section-title {
-            font-size: 36px;
-            font-weight: bold;
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            font-size: 44px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
             text-align: center;
             margin-bottom: 64px;
+        }
+
+        .section-eyebrow {
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            text-align: center;
+            color: #a5b4fc;
+            margin-bottom: 12px;
+        }
+
+        /* The hero's eyebrow follows the hero text's own alignment (centered
+           on mobile, left-aligned on desktop) rather than always centering */
+        .profile-content-text .section-eyebrow {
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .profile-content-text .section-eyebrow {
+                text-align: left;
+            }
         }
         
         .experience-grid {
@@ -224,8 +280,10 @@
         }
         
         .experience-title {
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
             font-size: 20px;
             font-weight: 600;
+            letter-spacing: -0.01em;
             margin-bottom: 12px;
         }
         
@@ -296,8 +354,10 @@
         }
         
         .project-title {
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
             font-size: 20px;
             font-weight: 600;
+            letter-spacing: -0.01em;
             margin-bottom: 12px;
         }
         
@@ -422,6 +482,7 @@
         }
         
         .education-school {
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
             font-size: 20px;
             font-weight: 600;
             color: white;
@@ -540,6 +601,34 @@
             }
         }
 
+        /* ---- Scroll-triggered reveal animations ---- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Reduced motion: show content immediately, no fade/slide-in at all */
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
+
+        /* Slight stagger so same-row cards don't all snap in at once */
+        .experience-grid .reveal:nth-child(2n),
+        .projects-grid .reveal:nth-child(2n) {
+            transition-delay: 0.12s;
+        }
+
         /* Everything else needs to sit above the fixed background layer.
            nav already has its own position:fixed above — only raise its
            z-index here, don't touch position or it loses its stickiness. */
@@ -557,9 +646,9 @@
         <div class="container">
             <span class="logo">Akshay Bapat</span>
             <div class="links">
-                <a href="#home">Home</a>
-                <a href="#experience">Experience</a>
-                <a href="#projects">Projects</a>
+                <a href="#home" class="nav-link" data-section="home"><span class="nav-num">01</span>Home</a>
+                <a href="#experience" class="nav-link" data-section="experience"><span class="nav-num">02</span>Experience</a>
+                <a href="#projects" class="nav-link" data-section="projects"><span class="nav-num">03</span>Projects</a>
                 <a href="Akshay_Bapat_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
                 <a href="mailto:Bapat.akshay1@gmail.com">Contact</a>
             </div>
@@ -577,7 +666,8 @@
                 <div id="profile-card-root"></div>
                 
                 <div class="profile-content">
-                    <div class="profile-content-text">
+                    <div class="profile-content-text reveal">
+                        <p class="section-eyebrow">01 — Introduction</p>
                         <h1 class="profile-heading">Hey, I'm Akshay - A Forward Deployed Engineer & AI Systems Builder from Princeton, NJ</h1>
                         <p class="profile-description">I'm currently a Forward Deployed Engineer at Invisible Technologies, embedded with Apollo Global Management, where I build MCP authorization gateways, production RAG systems, and shared observability infrastructure for AI agents operating across enterprise tool servers. Previously at Northern Trust, I architected distributed-agent systems that automated legacy code migration across 500K+ lines and saved $1.2M in engineering costs. I'm passionate about the infrastructure that makes AI agents trustworthy in production — authorization, observability, and grounded retrieval — not just the models themselves.</p>
                         
@@ -616,7 +706,7 @@
                             </a>
                         </div>
                         
-                        <div class="education-section">
+                        <div class="education-section reveal">
                             <div class="education-item">
                                 <div class="education-school">Georgia Tech</div>
                                 <div class="education-degree">MS Computer Science</div>
@@ -627,7 +717,7 @@
                             </div>
                         </div>
                         
-                        <div class="skills-container">
+                        <div class="skills-container reveal">
                             <span class="skill-tag">Python</span>
                             <span class="skill-tag">MCP</span>
                             <span class="skill-tag">RAG</span>
@@ -661,9 +751,10 @@
             <div class="parallax-layer" data-speed="0.2"><div class="orb orb-3"></div></div>
         </div>
         <div class="container">
-            <h2 class="section-title">Work Experience</h2>
+            <p class="section-eyebrow reveal">02 — Career</p>
+            <h2 class="section-title reveal">Work Experience</h2>
             <div class="experience-grid">
-                <div class="experience-card">
+                <div class="experience-card reveal">
                     <div class="card-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
                             <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
@@ -684,7 +775,7 @@
                     </div>
                 </div>
 
-                <div class="experience-card">
+                <div class="experience-card reveal">
                     <div class="card-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
                             <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
@@ -705,7 +796,7 @@
                     </div>
                 </div>
                 
-                <div class="experience-card">
+                <div class="experience-card reveal">
                     <div class="card-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
                             <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
@@ -726,7 +817,7 @@
                     </div>
                 </div>
                 
-                <div class="experience-card">
+                <div class="experience-card reveal">
                     <div class="card-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
                             <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
@@ -747,7 +838,7 @@
                     </div>
                 </div>
                 
-                <div class="experience-card">
+                <div class="experience-card reveal">
                     <div class="card-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
                             <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
@@ -767,7 +858,7 @@
                     </div>
                 </div>
 
-                <div class="experience-card">
+                <div class="experience-card reveal">
                     <div class="card-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
                             <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
@@ -788,7 +879,7 @@
                     </div>
                 </div>
 
-                <div class="experience-card">
+                <div class="experience-card reveal">
                     <div class="card-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
                             <path d="M20 7h-3a2 2 0 0 1-2-2V2"></path>
@@ -809,7 +900,7 @@
                     </div>
                 </div>
 
-                <div class="experience-card">
+                <div class="experience-card reveal">
                     <div class="card-header">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="experience-icon">
                             <rect width="18" height="10" x="3" y="5" rx="1"></rect>
@@ -843,9 +934,10 @@
             <div class="parallax-layer" data-speed="0.25"><div class="orb orb-5"></div></div>
         </div>
         <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-eyebrow reveal">03 — Build</p>
+            <h2 class="section-title reveal">Featured Projects</h2>
             <div class="projects-grid">
-                <div class="project-card">
+                <div class="project-card reveal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
                         <path d="m18 16 4-4-4-4"></path>
                         <path d="m6 8-4 4 4 4"></path>
@@ -856,7 +948,7 @@
                     <p class="project-description">Designed a semantic embedding and retrieval pipeline for research papers using transformer models and FAISS vector search, with context-aware question answering and summarization improving retrieval relevance by 35% over baseline keyword search. Added dataset evaluation metrics and prompt-tuning loops for response quality analysis.</p>
                 </div>
 
-                <div class="project-card">
+                <div class="project-card reveal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
                         <path d="m18 16 4-4-4-4"></path>
                         <path d="m6 8-4 4 4 4"></path>
@@ -867,7 +959,7 @@
                     <p class="project-description">Built conversational AI agents leveraging LLMs for dialogue generation, intent classification, and personalized outreach, with language-data experiments to evaluate dialog coherence and user engagement.</p>
                 </div>
 
-                <div class="project-card">
+                <div class="project-card reveal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
                         <path d="m18 16 4-4-4-4"></path>
                         <path d="m6 8-4 4 4 4"></path>
@@ -878,7 +970,7 @@
                     <p class="project-description">Implemented and tested KNN, Naïve Bayes, and LR on dataset of 60,000 training images and 10,000 test images for digit classification reporting error of less than 2%. Optimized PReLU MLP with 4 layers and 256 nodes per layer on MRI image reconstruction with ∝ being learned from training data using backpropagation to minimize loss function.</p>
                 </div>
                 
-                <div class="project-card">
+                <div class="project-card reveal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
                         <path d="m18 16 4-4-4-4"></path>
                         <path d="m6 8-4 4 4 4"></path>
@@ -889,7 +981,7 @@
                     <p class="project-description">Leveraged LLM using Huggingface utilizing techniques including attention mechanisms, self-attention, and transformer architecture to build an AI text generator. AI text generator can infer semantics and contextualize information based on input prompts.</p>
                 </div>
                 
-                <div class="project-card">
+                <div class="project-card reveal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
                         <path d="m18 16 4-4-4-4"></path>
                         <path d="m6 8-4 4 4 4"></path>
@@ -900,7 +992,7 @@
                     <p class="project-description">Built Linux like operating system incorporating GDT, IDT, basic paging support for tasks, separate 4 MB pages for the kernel and applications. Included device initialization, system call interface along with ten system calls.</p>
                 </div>
                 
-                <div class="project-card">
+                <div class="project-card reveal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
                         <path d="m18 16 4-4-4-4"></path>
                         <path d="m6 8-4 4 4 4"></path>
@@ -1206,6 +1298,58 @@
         root.render(<App />);
     </script>
 
+    <!-- Scroll-triggered reveal animations -->
+    <script>
+        (function () {
+            // Reduced-motion users get everything visible via the CSS override
+            // above (opacity:1, no transition) — no observer needed at all.
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            var targets = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+            if (!targets.length || !('IntersectionObserver' in window)) return;
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // reveal once, don't re-trigger on scroll back up
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+            targets.forEach(function (el) { observer.observe(el); });
+        })();
+    </script>
+
+    <!-- Numbered nav: highlight the link for whichever section is in view -->
+    <script>
+        (function () {
+            var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link[data-section]'));
+            if (!navLinks.length || !('IntersectionObserver' in window)) return;
+
+            var linksBySection = {};
+            navLinks.forEach(function (link) {
+                linksBySection[link.getAttribute('data-section')] = link;
+            });
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    var link = linksBySection[entry.target.id];
+                    if (!link) return;
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(function (l) { l.classList.remove('active'); });
+                        link.classList.add('active');
+                    }
+                });
+            }, { threshold: 0, rootMargin: '-40% 0px -40% 0px' }); // "active" once a section crosses the vertical middle of the viewport
+
+            Object.keys(linksBySection).forEach(function (id) {
+                var section = document.getElementById(id);
+                if (section) observer.observe(section);
+            });
+        })();
+    </script>
+
     <!-- Scroll-linked parallax for the background orbs -->
     <script>
         (function () {
@@ -1241,6 +1385,21 @@
 
             applyParallax();
         })();
+    </script>
+
+    <script>
+        // Weighted/inertial scroll — skipped entirely under prefers-reduced-motion,
+        // since smoothing/lerping scroll is itself a motion effect. Native
+        // scroll (instant, no smoothing) is a perfectly good fallback.
+        // Initialized last, after all content exists, so Lenis measures the
+        // real document height instead of clamping to an empty <body>.
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.Lenis) {
+            window.__lenis = new Lenis({
+                autoRaf: true,
+                duration: 1.1,
+                anchors: { offset: -84 } // clears the fixed nav height
+            });
+        }
     </script>
 </body>
 </html>
