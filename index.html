@@ -1058,6 +1058,46 @@
             color: #0a0a12;
         }
 
+
+        /* ---- Approach narrative: four massive keywords, one per screen,
+           revealing one by one between Experience and Projects ---- */
+        .approach-step {
+            min-height: 82vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .approach-index {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            color: #a5b4fc;
+            margin-bottom: 14px;
+        }
+
+        .approach-word {
+            font-family: 'Anton', 'Space Grotesk', sans-serif;
+            font-weight: 400;
+            font-size: clamp(72px, 13vw, 190px);
+            line-height: 0.95;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            color: #f2f3ff;
+        }
+
+        .approach-line {
+            margin-top: 22px;
+            max-width: 46ch;
+            color: #b6bce0;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
         /* The hero peel writes transform/opacity inline from the scroll loop */
         .polaroid,
         .hero-inner {
@@ -1078,7 +1118,7 @@
         nav {
             z-index: 51;
         }
-        #home, #experience, #projects, #about, #contact, footer {
+        #home, #experience, #approach, #projects, #about, #contact, footer {
             position: relative;
             z-index: 1;
         }
@@ -1392,6 +1432,32 @@
         </div>
     </section>
     
+    <section id="approach">
+        <div class="approach-step">
+            <p class="approach-index reveal">01 / 04</p>
+            <h3 class="approach-word reveal">Embed</h3>
+            <p class="approach-line reveal">Inside the client's building, not behind a ticket queue. Requirements come from the room — compliance, HR, engineering — not from a spec.</p>
+        </div>
+
+        <div class="approach-step">
+            <p class="approach-index reveal">02 / 04</p>
+            <h3 class="approach-word reveal">Ship</h3>
+            <p class="approach-line reveal">Production in weeks, not quarters. An agent that works beats a deck that impresses.</p>
+        </div>
+
+        <div class="approach-step">
+            <p class="approach-index reveal">03 / 04</p>
+            <h3 class="approach-word reveal">Observe</h3>
+            <p class="approach-line reveal">If it isn't traced, it didn't happen. Every agent call instrumented, evaluated, and audited.</p>
+        </div>
+
+        <div class="approach-step">
+            <p class="approach-index reveal">04 / 04</p>
+            <h3 class="approach-word reveal">Harden</h3>
+            <p class="approach-line reveal">Authorization, guardrails, human approval gates. Trust is the feature that makes everything else shippable.</p>
+        </div>
+    </section>
+
     <section id="projects">
         <div class="section-orbs" aria-hidden="true">
             <div class="parallax-layer" data-speed="0.35"><div class="orb orb-4"></div></div>
