@@ -44,6 +44,7 @@
             position: fixed;
             width: 100%;
             background-color: rgba(0, 0, 0, 0.2);
+            -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
             z-index: 50;
         }
@@ -205,6 +206,7 @@
         #experience {
             padding: 80px 0;
             background-color: rgba(0, 0, 0, 0.2);
+            -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
         }
         
@@ -629,6 +631,119 @@
             transition-delay: 0.12s;
         }
 
+        /* ---- Artistic scroll scene: starfield, ghost numerals, hero peel,
+           masked titles ---- */
+
+        /* Three depths of stars scrolling at different rates behind every
+           section. One composited node per layer — each dot carries all its
+           stars as box-shadows, so the whole sky costs three transforms. */
+        .starfield {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100vh; /* real height set from JS once content is laid out */
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star-layer {
+            position: absolute;
+            inset: 0;
+            will-change: transform;
+        }
+
+        .star-dot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+        }
+
+        .star-layer-1 { animation: twinkle 7s ease-in-out infinite alternate; }
+        .star-layer-2 { animation: twinkle 5s ease-in-out 1.2s infinite alternate; }
+        .star-layer-3 { animation: twinkle 9s ease-in-out 2.4s infinite alternate; }
+
+        @keyframes twinkle {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        /* Giant outlined section numerals that drift on a lag behind their
+           section — depth cue between the starfield and the content. */
+        .ghost-num {
+            position: absolute;
+            font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            font-weight: 700;
+            font-size: clamp(9rem, 24vw, 20rem);
+            line-height: 1;
+            color: rgba(165, 180, 252, 0.04);
+            -webkit-text-stroke: 1.5px rgba(165, 180, 252, 0.14);
+            pointer-events: none;
+            user-select: none;
+            will-change: transform;
+        }
+
+        #home .ghost-num { right: 1%; top: 10%; }
+        #experience .ghost-num { left: 1%; top: 30px; }
+        #projects .ghost-num { right: 1%; top: 30px; }
+
+        /* Content must sit above the ghost numerals and orbs — those are
+           positioned (z-index 0) and would otherwise paint over plain,
+           non-positioned text inside the section. */
+        section > .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Masked title reveal: the heading slides up out of a clipped line,
+           then a gradient slash draws itself underneath. */
+        .title-mask {
+            display: block;
+            overflow: hidden;
+        }
+
+        .title-inner {
+            display: block;
+            transform: translateY(112%);
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+        }
+
+        .reveal.is-visible .title-inner {
+            transform: translateY(0);
+        }
+
+        .title-line {
+            display: block;
+            width: 76px;
+            height: 3px;
+            margin: 20px auto 0;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #6366f1, #a5b4fc, #ff2c75);
+            transform: scaleX(0);
+            transition: transform 0.8s cubic-bezier(0.16, 1.08, 0.38, 0.98) 0.5s;
+        }
+
+        .reveal.is-visible .title-line {
+            transform: scaleX(1);
+        }
+
+        /* The hero peel writes transform/opacity inline from the scroll loop */
+        #profile-card-root,
+        .profile-content {
+            will-change: transform, opacity;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .star-layer { animation: none; }
+            .title-inner,
+            .title-line {
+                transform: none;
+                transition: none;
+            }
+        }
+
         /* Everything else needs to sit above the fixed background layer.
            nav already has its own position:fixed above — only raise its
            z-index here, don't touch position or it loses its stickiness. */
@@ -642,6 +757,12 @@
     </style>
 </head>
 <body>
+    <div class="starfield" aria-hidden="true">
+        <div class="star-layer star-layer-1" data-star-speed="0.3"></div>
+        <div class="star-layer star-layer-2" data-star-speed="0.5"></div>
+        <div class="star-layer star-layer-3" data-star-speed="0.72"></div>
+    </div>
+
     <nav>
         <div class="container">
             <span class="logo">Akshay Bapat</span>
@@ -659,6 +780,7 @@
         <div class="section-orbs" aria-hidden="true">
             <div class="parallax-layer" data-speed="0.15"><div class="orb orb-1"></div></div>
             <div class="parallax-layer" data-speed="0.3"><div class="orb orb-2"></div></div>
+            <div class="ghost-num" data-lag="0.24" data-tilt="-8">01</div>
         </div>
         <div class="container">
             <div class="profile-container">
@@ -749,10 +871,11 @@
     <section id="experience">
         <div class="section-orbs" aria-hidden="true">
             <div class="parallax-layer" data-speed="0.2"><div class="orb orb-3"></div></div>
+            <div class="ghost-num" data-lag="0.2" data-tilt="6">02</div>
         </div>
         <div class="container">
             <p class="section-eyebrow reveal">02 — Career</p>
-            <h2 class="section-title reveal">Work Experience</h2>
+            <h2 class="section-title reveal"><span class="title-mask"><span class="title-inner">Work Experience</span></span><span class="title-line" aria-hidden="true"></span></h2>
             <div class="experience-grid">
                 <div class="experience-card reveal">
                     <div class="card-header">
@@ -932,10 +1055,11 @@
         <div class="section-orbs" aria-hidden="true">
             <div class="parallax-layer" data-speed="0.35"><div class="orb orb-4"></div></div>
             <div class="parallax-layer" data-speed="0.25"><div class="orb orb-5"></div></div>
+            <div class="ghost-num" data-lag="0.26" data-tilt="-5">03</div>
         </div>
         <div class="container">
             <p class="section-eyebrow reveal">03 — Build</p>
-            <h2 class="section-title reveal">Featured Projects</h2>
+            <h2 class="section-title reveal"><span class="title-mask"><span class="title-inner">Featured Projects</span></span><span class="title-line" aria-hidden="true"></span></h2>
             <div class="projects-grid">
                 <div class="project-card reveal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
@@ -1350,17 +1474,71 @@
         })();
     </script>
 
-    <!-- Scroll-linked parallax for the background orbs -->
+    <!-- Scroll-linked scene: orb parallax, starfield depths, ghost numerals,
+         hero depth-peel. One rAF handler drives every layer. -->
     <script>
         (function () {
             var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) return;
+
             var layers = Array.prototype.slice.call(document.querySelectorAll('.parallax-layer'));
-            if (prefersReducedMotion || !layers.length) return;
+            var starLayers = Array.prototype.slice.call(document.querySelectorAll('.star-layer'));
+            var ghosts = Array.prototype.slice.call(document.querySelectorAll('.ghost-num'));
+            var starfield = document.querySelector('.starfield');
+            var heroCard = document.getElementById('profile-card-root');
+            var heroText = document.querySelector('.profile-content');
+
+            // Seed each depth layer with a single dot whose box-shadow list
+            // carries every star — three composited nodes for the whole sky.
+            // A layer moving at fraction `speed` of scroll speed only ever
+            // shows document positions up to maxScroll*speed + one viewport,
+            // so stars are scattered over exactly that reach.
+            var lastBuiltHeight = 0;
+            function buildStars() {
+                if (!starfield || !starLayers.length) return;
+                var docHeight = document.documentElement.scrollHeight;
+                lastBuiltHeight = docHeight;
+                starfield.style.height = docHeight + 'px';
+                var maxScroll = Math.max(0, docHeight - window.innerHeight);
+                var palette = ['255, 255, 255', '165, 180, 252', '199, 210, 254'];
+                starLayers.forEach(function (layer, idx) {
+                    var speed = parseFloat(layer.getAttribute('data-star-speed')) || 0.5;
+                    var reach = maxScroll * speed + window.innerHeight;
+                    var count = 150 - idx * 30;
+                    var size = idx + 1; // nearer (faster) layers get bigger stars
+                    var shadows = [];
+                    for (var i = 0; i < count; i++) {
+                        var x = (Math.random() * 100).toFixed(2);
+                        var y = Math.round(Math.random() * reach);
+                        var alpha = (0.2 + Math.random() * 0.55).toFixed(2);
+                        shadows.push(x + 'vw ' + y + 'px 0 rgba(' + palette[i % 3] + ', ' + alpha + ')');
+                    }
+                    var dot = layer.firstElementChild;
+                    if (!dot) {
+                        dot = document.createElement('div');
+                        dot.className = 'star-dot';
+                        layer.appendChild(dot);
+                    }
+                    dot.style.width = size + 'px';
+                    dot.style.height = size + 'px';
+                    dot.style.boxShadow = shadows.join(', ');
+                });
+            }
+
+            // Rebuild only when the document height genuinely changed (React
+            // mount, real resize) — never on mobile URL-bar height jitter,
+            // which would visibly re-randomize the sky mid-scroll.
+            function maybeRebuildStars() {
+                var h = document.documentElement.scrollHeight;
+                if (Math.abs(h - lastBuiltHeight) > 200) buildStars();
+            }
 
             var ticking = false;
 
-            function applyParallax() {
+            function applyScene() {
                 var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                var vh = window.innerHeight;
+
                 layers.forEach(function (layer) {
                     var speed = parseFloat(layer.getAttribute('data-speed')) || 0.2;
                     // Each .section-orbs container is position:absolute (scrolls
@@ -1373,17 +1551,73 @@
                     // normal content), counter-offset by scrollY * (1 - speed).
                     layer.style.transform = 'translate3d(0, ' + (scrollY * (1 - speed)) + 'px, 0)';
                 });
+
+                // Same counter-offset math as the orbs — the starfield is also
+                // an absolutely-positioned, normally-scrolling container.
+                starLayers.forEach(function (layer) {
+                    var speed = parseFloat(layer.getAttribute('data-star-speed')) || 0.5;
+                    layer.style.transform = 'translate3d(0, ' + (scrollY * (1 - speed)) + 'px, 0)';
+                });
+
+                // Ghost numerals trail their section by a fraction of its own
+                // viewport-relative position, tilted a few static degrees.
+                ghosts.forEach(function (ghost) {
+                    var lag = parseFloat(ghost.getAttribute('data-lag')) || 0.2;
+                    var tilt = ghost.getAttribute('data-tilt') || '0';
+                    var top = ghost.parentElement.getBoundingClientRect().top;
+                    ghost.style.transform = 'translate3d(0, ' + (top * lag) + 'px, 0) rotate(' + tilt + 'deg)';
+                });
+
+                // Hero depth-peel: photo and text linger at different rates and
+                // dissolve as the hero scrolls away — layers peeling off a
+                // stack. visibility guards clicks once fully faded, since an
+                // opacity:0 element would still swallow pointer events over
+                // the section that scrolls up beneath it.
+                if (scrollY < vh * 1.5) {
+                    var fade = Math.max(0, 1 - (scrollY / vh) * 1.15);
+                    var gone = fade <= 0.01 ? 'hidden' : '';
+                    if (heroCard) {
+                        heroCard.style.transform = 'translate3d(0, ' + (scrollY * 0.34) + 'px, 0)';
+                        heroCard.style.opacity = fade;
+                        heroCard.style.visibility = gone;
+                    }
+                    if (heroText) {
+                        heroText.style.transform = 'translate3d(0, ' + (scrollY * 0.16) + 'px, 0)';
+                        heroText.style.opacity = fade;
+                        heroText.style.visibility = gone;
+                    }
+                }
+
                 ticking = false;
             }
 
             window.addEventListener('scroll', function () {
                 if (!ticking) {
-                    window.requestAnimationFrame(applyParallax);
+                    window.requestAnimationFrame(applyScene);
                     ticking = true;
                 }
             }, { passive: true });
 
-            applyParallax();
+            var resizeTimer = null;
+            window.addEventListener('resize', function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    maybeRebuildStars();
+                    applyScene();
+                }, 250);
+            });
+
+            // The React profile card mounts after this runs and changes the
+            // document height — re-measure once everything has settled.
+            window.addEventListener('load', function () {
+                setTimeout(function () {
+                    maybeRebuildStars();
+                    applyScene();
+                }, 400);
+            });
+
+            buildStars();
+            applyScene();
         })();
     </script>
 
