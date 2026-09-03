@@ -157,12 +157,13 @@
             overflow: hidden;
             border: 1px solid rgba(129, 140, 248, 0.25);
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+            background: #fff;
         }
 
-        .preview:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 40px 90px rgba(99, 102, 241, 0.25);
+        .preview object {
+            width: 100%;
+            aspect-ratio: 1855 / 2400;
+            display: block;
         }
 
         .preview img {
@@ -209,14 +210,21 @@
         <p class="updated">Last updated September 2026</p>
         <p class="updated" style="margin-top: -34px;"><a href="mailto:Bapat.akshay1@gmail.com" style="color: #a5b4fc; text-decoration: none;">Bapat.akshay1@gmail.com</a></p>
 
-        <!-- NOTE: resume-preview.png is rendered from Akshay_Bapat_Resume.pdf
-             (sips -s format png -Z 1600). Whenever the PDF changes, regenerate
-             the preview too — the two drifting apart is the one way this page
-             can lie. -->
-        <a class="preview" href="Akshay_Bapat_Resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open the full resume PDF">
-            <img src="resume-preview.png" alt="Preview of Akshay Bapat's one-page resume" width="1855" height="2400">
-        </a>
-        <p class="updated" style="margin-top: 18px;">Click the preview to open the full PDF</p>
+        <!-- The preview embeds the actual PDF so text stays vector-crisp at
+             any size (raster previews turn to mush under Safari's downscaler).
+             Browsers that won't inline PDFs get the srcset image fallback.
+             NOTE: the fallback PNGs are rendered from Akshay_Bapat_Resume.pdf
+             (sips -s format png -Z 1000 / -Z 2400) — regenerate them whenever
+             the PDF changes. -->
+        <div class="preview">
+            <object data="Akshay_Bapat_Resume.pdf#toolbar=0&navpanes=0&view=Fit" type="application/pdf" aria-label="Akshay Bapat's one-page resume">
+                <img src="resume-preview.png"
+                     srcset="resume-preview-900.png 900w, resume-preview.png 1855w"
+                     sizes="(max-width: 920px) 94vw, 812px"
+                     alt="Preview of Akshay Bapat's one-page resume" width="1855" height="2400">
+            </object>
+        </div>
+        <p class="updated" style="margin-top: 18px;">Zoom and select text right in the preview &mdash; or grab the PDF above</p>
     </main>
 
     <footer>
