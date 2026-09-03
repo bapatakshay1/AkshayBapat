@@ -389,32 +389,155 @@
             padding: 112px 0 80px;
         }
         
-        .projects-grid {
-            display: grid;
-            gap: 32px;
-            max-width: 1024px;
+        /* Works-style glass filmstrip: frosted panels snap-scrolling
+           horizontally, neighbors peeking in from both edges */
+        .projects-strip-wrap {
+            position: relative;
+            max-width: 1200px;
             margin: 0 auto;
         }
-        
-        @media (min-width: 768px) {
-            .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+
+        .projects-strip {
+            display: flex;
+            gap: 28px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 8px 12% 28px;
+            scrollbar-width: none;
         }
-        
+
+        .projects-strip::-webkit-scrollbar { display: none; }
+
         .project-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            padding: 24px;
-            border-radius: 12px;
-            backdrop-filter: blur(8px);
-            transition: all 0.3s;
-            transform: translateY(0);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            flex: 0 0 76%;
+            scroll-snap-align: center;
+            background-color: rgba(255, 255, 255, 0.06);
+            padding: 40px 44px;
+            border-radius: 24px;
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+            transition: background-color 0.3s;
+            border: 1px solid rgba(129, 140, 248, 0.22);
         }
-        
+
+        @media (min-width: 900px) {
+            .project-card { flex-basis: 62%; }
+        }
+
         .project-card:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-8px);
+            background-color: rgba(255, 255, 255, 0.09);
+        }
+
+        .strip-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .strip-dots button {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 0;
+            padding: 0;
+            background: rgba(165, 180, 252, 0.25);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .strip-dots button.active { background: #e7e9ff; }
+
+        .strip-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(165, 180, 252, 0.3);
+            background: rgba(16, 16, 24, 0.7);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            color: #e7e9ff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .strip-prev { left: 8px; }
+        .strip-next { right: 8px; }
+
+        @media (max-width: 768px) {
+            .strip-arrow { display: none; }
+            .project-card { flex-basis: 88%; padding: 28px; }
+            .projects-strip { padding: 8px 6% 24px; }
+        }
+
+        .project-num {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.25em;
+            color: #a5b4fc;
+            margin-bottom: 14px;
+        }
+
+        /* ---- 04 · About: dimmed personal photo, scroll-scrubbed statement,
+           short bio, closing signature ---- */
+        #about {
+            position: relative;
+            padding: 150px 0 130px;
+            overflow: hidden;
+        }
+
+        .about-photo {
+            position: absolute;
+            inset: 0;
+            background: url('me.jpg') center 22% / cover no-repeat;
+            filter: grayscale(70%) brightness(0.32) blur(3px);
+            transform: scale(1.06); /* hide blur edge bleed */
+        }
+
+        .about-photo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(5, 5, 8, 0.55), rgba(5, 5, 8, 0.35) 40%, rgba(5, 5, 8, 0.92));
+        }
+
+        .about-statement {
+            font-family: 'Anton', 'Space Grotesk', sans-serif;
+            font-weight: 400;
+            font-size: clamp(40px, 6.4vw, 92px);
+            line-height: 1.04;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            text-align: center;
+            color: #f2f3ff;
+            max-width: 1000px;
+            margin: 0 auto 56px;
+        }
+
+        .about-bio {
+            max-width: 54ch;
+            margin: 0 auto;
+            text-align: center;
+            color: #c3c8e8;
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        .about-bio p + p { margin-top: 22px; }
+
+        .about-flavor { color: #8b93c9; font-size: 15px; }
+
+        .about-sig {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(54px, 7vw, 96px);
+            color: #fff;
+            text-align: center;
+            transform: rotate(-4deg);
+            margin-top: 56px;
         }
         
         .project-icon {
@@ -693,8 +816,7 @@
         }
 
         /* Slight stagger so same-row cards don't all snap in at once */
-        .experience-grid .reveal:nth-child(2n),
-        .projects-grid .reveal:nth-child(2n) {
+        .experience-grid .reveal:nth-child(2n) {
             transition-delay: 0.12s;
         }
 
@@ -815,6 +937,7 @@
         #home .ghost-num { right: 1%; top: 10%; }
         #experience .ghost-num { left: 1%; top: 30px; }
         #projects .ghost-num { right: 1%; top: 30px; }
+        #about .ghost-num { left: 1%; top: 40px; }
 
         /* Content must sit above the ghost numerals and orbs — those are
            positioned (z-index 0) and would otherwise paint over plain,
@@ -868,7 +991,7 @@
         nav {
             z-index: 51;
         }
-        #home, #experience, #projects, #contact, footer {
+        #home, #experience, #projects, #about, footer {
             position: relative;
             z-index: 1;
         }
@@ -891,6 +1014,7 @@
             <a href="#home" class="nav-link" data-section="home"><span class="nav-num">01</span>Home</a>
             <a href="#experience" class="nav-link" data-section="experience"><span class="nav-num">02</span>Experience</a>
             <a href="#projects" class="nav-link" data-section="projects"><span class="nav-num">03</span>Projects</a>
+            <a href="#about" class="nav-link" data-section="about"><span class="nav-num">04</span>About</a>
             <a href="Akshay_Bapat_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
             <a href="mailto:Bapat.akshay1@gmail.com">Contact</a>
         </div>
@@ -1191,78 +1315,76 @@
             <p class="section-eyebrow reveal">03 — Build</p>
             <h2 class="section-title reveal"><span class="title-mask"><span class="title-inner">Featured Projects</span></span></h2>
             <p class="section-annot reveal">things i've built</p>
-            <div class="projects-grid">
-                <div class="project-card reveal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
-                        <path d="m18 16 4-4-4-4"></path>
-                        <path d="m6 8-4 4 4 4"></path>
-                        <path d="m14.5 4-5 16"></path>
-                    </svg>
-                    <h3 class="project-title">Scientific Paper RAG System</h3>
-                    <p class="project-tech">Python / FAISS / Transformers / LangChain</p>
-                    <p class="project-description">Designed a semantic embedding and retrieval pipeline for research papers using transformer models and FAISS vector search, with context-aware question answering and summarization improving retrieval relevance by 35% over baseline keyword search. Added dataset evaluation metrics and prompt-tuning loops for response quality analysis.</p>
-                </div>
+            <div class="projects-strip-wrap reveal">
+                <button class="strip-arrow strip-prev" aria-label="Previous project">&#8592;</button>
+                <button class="strip-arrow strip-next" aria-label="Next project">&#8594;</button>
+                <div class="projects-strip">
+                    <div class="project-card reveal">
+                        <span class="project-num">01 / 06</span>
+                        <h3 class="project-title">Scientific Paper RAG System</h3>
+                        <p class="project-tech">Python / FAISS / Transformers / LangChain</p>
+                        <p class="project-description">Designed a semantic embedding and retrieval pipeline for research papers using transformer models and FAISS vector search, with context-aware question answering and summarization improving retrieval relevance by 35% over baseline keyword search. Added dataset evaluation metrics and prompt-tuning loops for response quality analysis.</p>
+                    </div>
 
-                <div class="project-card reveal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
-                        <path d="m18 16 4-4-4-4"></path>
-                        <path d="m6 8-4 4 4 4"></path>
-                        <path d="m14.5 4-5 16"></path>
-                    </svg>
-                    <h3 class="project-title">GenAI Multi-Agent Sales CRM</h3>
-                    <p class="project-tech">Firebase / Grok / MCP / TensorFlow</p>
-                    <p class="project-description">Built conversational AI agents leveraging LLMs for dialogue generation, intent classification, and personalized outreach, with language-data experiments to evaluate dialog coherence and user engagement.</p>
-                </div>
+                    <div class="project-card reveal">
+                        <span class="project-num">02 / 06</span>
+                        <h3 class="project-title">GenAI Multi-Agent Sales CRM</h3>
+                        <p class="project-tech">Firebase / Grok / MCP / TensorFlow</p>
+                        <p class="project-description">Built conversational AI agents leveraging LLMs for dialogue generation, intent classification, and personalized outreach, with language-data experiments to evaluate dialog coherence and user engagement.</p>
+                    </div>
 
-                <div class="project-card reveal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
-                        <path d="m18 16 4-4-4-4"></path>
-                        <path d="m6 8-4 4 4 4"></path>
-                        <path d="m14.5 4-5 16"></path>
-                    </svg>
-                    <h3 class="project-title">NaiveBayes/KNN/LR</h3>
-                    <p class="project-tech">Python</p>
-                    <p class="project-description">Implemented and tested KNN, Naïve Bayes, and LR on dataset of 60,000 training images and 10,000 test images for digit classification reporting error of less than 2%. Optimized PReLU MLP with 4 layers and 256 nodes per layer on MRI image reconstruction with α being learned from training data using backpropagation to minimize loss function.</p>
+                    <div class="project-card reveal">
+                        <span class="project-num">03 / 06</span>
+                        <h3 class="project-title">NaiveBayes/KNN/LR</h3>
+                        <p class="project-tech">Python</p>
+                        <p class="project-description">Implemented and tested KNN, Naïve Bayes, and LR on dataset of 60,000 training images and 10,000 test images for digit classification reporting error of less than 2%. Optimized PReLU MLP with 4 layers and 256 nodes per layer on MRI image reconstruction with α being learned from training data using backpropagation to minimize loss function.</p>
+                    </div>
+
+                    <div class="project-card reveal">
+                        <span class="project-num">04 / 06</span>
+                        <h3 class="project-title">AI Text Generator</h3>
+                        <p class="project-tech">Python / HuggingFace / GPT2</p>
+                        <p class="project-description">Leveraged LLM using Huggingface utilizing techniques including attention mechanisms, self-attention, and transformer architecture to build an AI text generator. AI text generator can infer semantics and contextualize information based on input prompts.</p>
+                    </div>
+
+                    <div class="project-card reveal">
+                        <span class="project-num">05 / 06</span>
+                        <h3 class="project-title">Linux OS-ECE391</h3>
+                        <p class="project-tech">ASML / C++</p>
+                        <p class="project-description">Built Linux like operating system incorporating GDT, IDT, basic paging support for tasks, separate 4 MB pages for the kernel and applications. Included device initialization, system call interface along with ten system calls.</p>
+                    </div>
+
+                    <div class="project-card reveal">
+                        <span class="project-num">06 / 06</span>
+                        <h3 class="project-title">BlackScoles-MonteCarlo</h3>
+                        <p class="project-tech">Python (Pandas, SciPy, Seaborn)</p>
+                        <p class="project-description">Implemented Monte Carlo simulation to estimate the value of a European call option using Python. The simulation involved generating random stock price paths, calculating option payoffs, and averaging these payoffs to estimate the option's value.</p>
+                    </div>
                 </div>
-                
-                <div class="project-card reveal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
-                        <path d="m18 16 4-4-4-4"></path>
-                        <path d="m6 8-4 4 4 4"></path>
-                        <path d="m14.5 4-5 16"></path>
-                    </svg>
-                    <h3 class="project-title">AI Text Generator</h3>
-                    <p class="project-tech">Python / HuggingFace / GPT2</p>
-                    <p class="project-description">Leveraged LLM using Huggingface utilizing techniques including attention mechanisms, self-attention, and transformer architecture to build an AI text generator. AI text generator can infer semantics and contextualize information based on input prompts.</p>
-                </div>
-                
-                <div class="project-card reveal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
-                        <path d="m18 16 4-4-4-4"></path>
-                        <path d="m6 8-4 4 4 4"></path>
-                        <path d="m14.5 4-5 16"></path>
-                    </svg>
-                    <h3 class="project-title">Linux OS-ECE391</h3>
-                    <p class="project-tech">ASML / C++</p>
-                    <p class="project-description">Built Linux like operating system incorporating GDT, IDT, basic paging support for tasks, separate 4 MB pages for the kernel and applications. Included device initialization, system call interface along with ten system calls.</p>
-                </div>
-                
-                <div class="project-card reveal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="project-icon">
-                        <path d="m18 16 4-4-4-4"></path>
-                        <path d="m6 8-4 4 4 4"></path>
-                        <path d="m14.5 4-5 16"></path>
-                    </svg>
-                    <h3 class="project-title">BlackScoles-MonteCarlo</h3>
-                    <p class="project-tech">Python (Pandas, SciPy, Seaborn)</p>
-                    <p class="project-description">Implemented Monte Carlo simulation to estimate the value of a European call option using Python. The simulation involved generating random stock price paths, calculating option payoffs, and averaging these payoffs to estimate the option's value.</p>
-                </div>
+                <div class="strip-dots" role="tablist" aria-label="Projects"></div>
             </div>
         </div>
     </section>
     
 
     
+    <section id="about">
+        <div class="about-photo" aria-hidden="true"></div>
+        <div class="section-orbs" aria-hidden="true">
+            <div class="ghost-num" data-lag="0.22" data-tilt="7">04</div>
+        </div>
+        <div class="container">
+            <p class="section-eyebrow reveal">04 &mdash; Beyond the Work</p>
+            <h2 class="about-statement" id="about-statement">Making AI agents trustworthy enough for production</h2>
+            <div class="about-bio reveal">
+                <p>I'm a forward deployed engineer based in Princeton, NJ. I work where research meets reality &mdash; embedded with client teams, shipping agents that survive contact with the enterprise.</p>
+                <p>Georgia Tech MSCS in AI. Illinois computer engineering. Along the way: Northern Trust, Oracle, PwC, John Deere, and Gramaner.</p>
+                <p class="about-flavor">Off the clock I'm usually still building something &mdash; this site included.</p>
+            </div>
+            <p class="about-sig reveal">Akshay Bapat</p>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
             <p>&copy; 2026 Akshay Bapat. All rights reserved.</p>
@@ -1336,6 +1458,24 @@
             var heroCard = document.querySelector('.polaroid');
             var heroText = document.querySelector('.hero-inner');
 
+            // About statement scrub: split into word spans whose opacity ramps
+            // with scroll progress — sasha-style text reveal. Reduced-motion
+            // users never reach this code, so the statement stays fully lit.
+            var statement = document.getElementById('about-statement');
+            var scrubWords = [];
+            if (statement) {
+                var words = statement.textContent.trim().split(/\s+/);
+                statement.textContent = '';
+                words.forEach(function (w, i) {
+                    var sp = document.createElement('span');
+                    sp.textContent = w;
+                    sp.style.opacity = 0.16;
+                    statement.appendChild(sp);
+                    if (i < words.length - 1) statement.appendChild(document.createTextNode(' '));
+                    scrubWords.push(sp);
+                });
+            }
+
             var ticking = false;
 
             function applyScene() {
@@ -1385,6 +1525,16 @@
                     }
                 }
 
+                if (scrubWords.length) {
+                    var sr = statement.getBoundingClientRect();
+                    var prog = (vh * 0.85 - sr.top) / (vh * 0.55);
+                    prog = Math.max(0, Math.min(1, prog));
+                    var lit = prog * scrubWords.length;
+                    scrubWords.forEach(function (sp, i) {
+                        sp.style.opacity = Math.max(0.16, Math.min(1, lit - i));
+                    });
+                }
+
                 ticking = false;
             }
 
@@ -1396,6 +1546,52 @@
             }, { passive: true });
 
             applyScene();
+        })();
+    </script>
+
+    <!-- Projects filmstrip: dots + arrows track/drive the snap scroller -->
+    <script>
+        (function () {
+            var strip = document.querySelector('.projects-strip');
+            var dotsWrap = document.querySelector('.strip-dots');
+            if (!strip || !dotsWrap) return;
+            var cards = Array.prototype.slice.call(strip.children);
+
+            var dots = cards.map(function (card, i) {
+                var b = document.createElement('button');
+                b.setAttribute('aria-label', 'Project ' + (i + 1));
+                b.addEventListener('click', function () {
+                    strip.scrollTo({
+                        left: card.offsetLeft - (strip.clientWidth - card.offsetWidth) / 2,
+                        behavior: 'smooth'
+                    });
+                });
+                dotsWrap.appendChild(b);
+                return b;
+            });
+
+            function setActive() {
+                var center = strip.scrollLeft + strip.clientWidth / 2;
+                var best = 0, bestDist = Infinity;
+                cards.forEach(function (card, i) {
+                    var d = Math.abs(card.offsetLeft + card.offsetWidth / 2 - center);
+                    if (d < bestDist) { bestDist = d; best = i; }
+                });
+                dots.forEach(function (dot, i) { dot.classList.toggle('active', i === best); });
+            }
+
+            strip.addEventListener('scroll', function () {
+                window.requestAnimationFrame(setActive);
+            }, { passive: true });
+            setActive();
+
+            var step = function () { return cards[0].offsetWidth + 28; }; // card + gap
+            document.querySelector('.strip-prev').addEventListener('click', function () {
+                strip.scrollBy({ left: -step(), behavior: 'smooth' });
+            });
+            document.querySelector('.strip-next').addEventListener('click', function () {
+                strip.scrollBy({ left: step(), behavior: 'smooth' });
+            });
         })();
     </script>
 
