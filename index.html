@@ -134,7 +134,7 @@
            flowing over them, everything centered on the black stage. */
         .hero-inner {
             text-align: center;
-            max-width: 1024px;
+            max-width: 880px;
             margin: 0 auto;
         }
 
@@ -161,8 +161,8 @@
         .profile-description {
             font-size: 16px;
             color: #b6bce0;
-            max-width: 720px;
-            margin: 40px auto 44px;
+            max-width: 56ch;
+            margin: 38px auto 42px;
             line-height: 1.7;
             text-align: center;
         }
@@ -170,8 +170,8 @@
         /* Photo as a tilted polaroid — personality over formality */
         .polaroid {
             position: absolute;
-            right: 6%;
-            bottom: 10%;
+            right: -1%; /* container-relative: hangs just outside the content column */
+            top: 21%;
             width: 168px;
             padding: 10px 10px 32px;
             background: #f4f2ec;
@@ -199,11 +199,11 @@
             color: #333;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1280px) {
             .polaroid {
                 position: relative;
                 right: auto;
-                bottom: auto;
+                top: auto;
                 margin: 44px auto 0;
                 transform: rotate(3deg);
             }
@@ -229,7 +229,7 @@
             border: 1px solid rgba(129, 140, 248, 0.2);
             border-radius: 10px;
             padding: 14px 22px;
-            opacity: 0.5;
+            opacity: 0.4;
             white-space: nowrap;
         }
 
@@ -237,11 +237,11 @@
         .af-2 { right: 8%; top: 10%; transform: rotate(4deg); }
         .af-3 { left: 12%; bottom: 18%; transform: rotate(3deg); }
         .af-4 { right: 10%; bottom: 26%; transform: rotate(-5deg); }
-        .af-5 { left: 38%; top: 7%; transform: rotate(2deg); }
+        .af-5 { left: 16%; top: 5%; transform: rotate(2deg); }
         .af-6 { right: 30%; bottom: 8%; transform: rotate(-3deg); }
 
         @media (max-width: 768px) {
-            .af-3, .af-4, .af-5 { display: none; }
+            .af-2, .af-3, .af-4, .af-5 { display: none; }
         }
 
         .social-links {
@@ -262,7 +262,7 @@
         }
         
         #experience {
-            padding: 80px 0;
+            padding: 112px 0 80px;
             background-color: rgba(0, 0, 0, 0.2);
             -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
@@ -284,7 +284,7 @@
         .section-annot {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(30px, 3.2vw, 46px);
-            color: #a5b4fc;
+            color: #ff2c75;
             text-align: center;
             transform: rotate(-3deg);
             margin-top: -0.55em;
@@ -386,7 +386,7 @@
         }
         
         #projects {
-            padding: 80px 0;
+            padding: 112px 0 80px;
         }
         
         .projects-grid {
@@ -756,14 +756,14 @@
             height: 260px;
             opacity: 0.4;
             transform: rotate(-16deg);
-            background: linear-gradient(90deg, transparent 8%, #312e81 30%, #6366f1 60%, #22d3ee 80%, transparent 95%);
+            background: linear-gradient(90deg, transparent 8%, #312e81 30%, #6366f1 60%, #818cf8 80%, transparent 95%);
             animation: auroraDrift1 60s ease-in-out 8s infinite;
         }
 
         .aurora-4 {
             top: 68%;
             height: 190px;
-            opacity: 0.3;
+            opacity: 0.2;
             transform: rotate(-11deg);
             background: linear-gradient(90deg, transparent 12%, #818cf8 38%, #ff2c75 70%, transparent 90%);
             animation: auroraDrift2 48s ease-in-out 4s infinite;
@@ -772,7 +772,7 @@
         .aurora-5 {
             top: 88%;
             height: 240px;
-            opacity: 0.42;
+            opacity: 0.3;
             transform: rotate(-15deg);
             background: linear-gradient(90deg, transparent 6%, #4338ca 32%, #a5b4fc 62%, transparent 92%);
             animation: auroraDrift1 56s ease-in-out 14s infinite;
@@ -917,7 +917,7 @@
                         <p class="section-eyebrow">01 — Forward Deployed Engineer · Princeton, NJ</p>
                         <h1 class="hero-title">AI Systems<br>Builder</h1>
                         <p class="hero-sig">Akshay Bapat</p>
-                        <p class="profile-description">I'm currently a Forward Deployed Engineer at Invisible Technologies, embedded with Apollo Global Management, where I build MCP authorization gateways, production RAG systems, and shared observability infrastructure for AI agents operating across enterprise tool servers. Previously at Northern Trust, I architected distributed-agent systems that automated legacy code migration across 500K+ lines and saved $1.2M in engineering costs. I'm passionate about the infrastructure that makes AI agents trustworthy in production — authorization, observability, and grounded retrieval.</p>
+                        <p class="profile-description">I build the infrastructure that makes AI agents trustworthy in production — MCP authorization gateways, production RAG, and observability — at Invisible Technologies, embedded with Apollo Global Management. Previously at Northern Trust, I automated legacy code migration across 500K+ lines, saving $1.2M in engineering costs.</p>
 
                         <div class="social-links">
                             <a href="Akshay_Bapat_Resume.pdf" target="_blank" rel="noopener noreferrer" class="social-link" title="Download Resume (PDF)">
@@ -1015,8 +1015,8 @@
                             <path d="m9 13 2 2 4-4"></path>
                         </svg>
                     </div>
-                    <h3 class="experience-title">Forward Deployed Engineer @ Apollo Global Management</h3>
-                    <p class="experience-company">Invisible Technologies</p>
+                    <h3 class="experience-title">Forward Deployed Engineer</h3>
+                    <p class="experience-company">Invisible Technologies · Apollo Global Management</p>
                     <p class="experience-date">2026 - Present</p>
                     <p class="experience-location">New York, NY</p>
                     <div class="experience-description">
@@ -1222,7 +1222,7 @@
                     </svg>
                     <h3 class="project-title">NaiveBayes/KNN/LR</h3>
                     <p class="project-tech">Python</p>
-                    <p class="project-description">Implemented and tested KNN, Naïve Bayes, and LR on dataset of 60,000 training images and 10,000 test images for digit classification reporting error of less than 2%. Optimized PReLU MLP with 4 layers and 256 nodes per layer on MRI image reconstruction with ∝ being learned from training data using backpropagation to minimize loss function.</p>
+                    <p class="project-description">Implemented and tested KNN, Naïve Bayes, and LR on dataset of 60,000 training images and 10,000 test images for digit classification reporting error of less than 2%. Optimized PReLU MLP with 4 layers and 256 nodes per layer on MRI image reconstruction with α being learned from training data using backpropagation to minimize loss function.</p>
                 </div>
                 
                 <div class="project-card reveal">
@@ -1374,7 +1374,7 @@
                     var gone = fade <= 0.01 ? 'hidden' : '';
                     if (heroCard) {
                         // keep the polaroid's CSS tilt — inline transform replaces it
-                        heroCard.style.transform = 'translate3d(0, ' + (scrollY * 0.34) + 'px, 0) rotate(6deg)';
+                        heroCard.style.transform = 'translate3d(0, ' + (scrollY * 0.22) + 'px, 0) rotate(6deg)';
                         heroCard.style.opacity = fade;
                         heroCard.style.visibility = gone;
                     }
