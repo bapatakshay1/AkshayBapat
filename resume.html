@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résumé — Akshay Bapat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Great+Vibes&family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #050508, #0b0a16, #050508);
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Same drafting grid as the main site, so the page feels like a room
+           in the same building rather than a separate property */
+        .bp-grid {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(165, 180, 252, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 180, 252, 0.045) 1px, transparent 1px),
+                linear-gradient(rgba(165, 180, 252, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 180, 252, 0.08) 1px, transparent 1px);
+            background-size: 48px 48px, 48px 48px, 240px 240px, 240px 240px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            font-family: 'Great Vibes', cursive;
+            font-size: 30px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .back {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            color: #c7cbe8;
+            text-decoration: none;
+            border: 1px solid rgba(165, 180, 252, 0.25);
+            border-radius: 999px;
+            padding: 9px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .back:hover {
+            background: #e7e9ff;
+            color: #0a0a12;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 24px 90px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #a5b4fc;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-family: 'Anton', 'Space Grotesk', sans-serif;
+            font-weight: 400;
+            font-size: clamp(56px, 9vw, 110px);
+            line-height: 0.95;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            color: #f2f3ff;
+        }
+
+        .annot {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(30px, 3.4vw, 46px);
+            color: #ff2c75;
+            transform: rotate(-3deg);
+            margin-top: -0.5em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 36px 0 14px;
+        }
+
+        .actions a {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 14px 30px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        .btn-primary {
+            background: #e7e9ff;
+            color: #0a0a12;
+            border: 1px solid #e7e9ff;
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+        }
+
+        .btn-secondary {
+            color: #e7e9ff;
+            border: 1px solid rgba(165, 180, 252, 0.35);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(165, 180, 252, 0.12);
+        }
+
+        .updated {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            color: #8b93c9;
+            margin-bottom: 44px;
+        }
+
+        .preview {
+            display: block;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(129, 140, 248, 0.25);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+        }
+
+        .preview:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 40px 90px rgba(99, 102, 241, 0.25);
+        }
+
+        .preview img {
+            width: 100%;
+            display: block;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 26px 24px 40px;
+            font-size: 14px;
+            color: #8b93c9;
+        }
+
+        footer a {
+            color: #a5b4fc;
+            text-decoration: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .preview { transition: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bp-grid" aria-hidden="true"></div>
+
+    <header>
+        <a class="brand" href="index.html">Akshay</a>
+        <a class="back" href="index.html">&#8592; Back to site</a>
+    </header>
+
+    <main>
+        <p class="eyebrow">Curriculum Vitae</p>
+        <h1>R&eacute;sum&eacute;</h1>
+        <p class="annot">the one-pager</p>
+
+        <div class="actions">
+            <a class="btn-primary" href="Akshay_Bapat_Resume.pdf" download="Akshay_Bapat_Resume.pdf">Download PDF</a>
+            <a class="btn-secondary" href="Akshay_Bapat_Resume.pdf" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+        </div>
+        <p class="updated">Last updated September 2026</p>
+        <p class="updated" style="margin-top: -34px;"><a href="mailto:Bapat.akshay1@gmail.com" style="color: #a5b4fc; text-decoration: none;">Bapat.akshay1@gmail.com</a></p>
+
+        <!-- NOTE: resume-preview.png is rendered from Akshay_Bapat_Resume.pdf
+             (sips -s format png -Z 1600). Whenever the PDF changes, regenerate
+             the preview too — the two drifting apart is the one way this page
+             can lie. -->
+        <a class="preview" href="Akshay_Bapat_Resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open the full resume PDF">
+            <img src="resume-preview.png" alt="Preview of Akshay Bapat's one-page resume" width="1236" height="1600">
+        </a>
+        <p class="updated" style="margin-top: 18px;">Click the preview to open the full PDF</p>
+    </main>
+
+    <footer>
+        Questions? <a href="mailto:Bapat.akshay1@gmail.com">Bapat.akshay1@gmail.com</a>
+    </footer>
+</body>
+</html>
