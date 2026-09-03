@@ -182,10 +182,15 @@
             will-change: transform, opacity;
         }
 
+        .polaroid-frame {
+            overflow: hidden;
+        }
+
         .polaroid img {
             width: 100%;
             display: block;
             filter: saturate(0.95);
+            will-change: transform;
         }
 
         .polaroid span {
@@ -1152,12 +1157,12 @@
             <div class="ghost-num" data-lag="0.24" data-tilt="-8">01</div>
         </div>
         <div class="artifact-wall" aria-hidden="true">
-            <div class="artifact af-1" data-rot="-6">MCP Gateways</div>
-            <div class="artifact af-2" data-rot="4">Production RAG</div>
-            <div class="artifact af-3" data-rot="3">Invisible ⨯ Apollo</div>
-            <div class="artifact af-4" data-rot="-5">Northern Trust · $1.2M saved</div>
-            <div class="artifact af-5" data-rot="2">Observability</div>
-            <div class="artifact af-6" data-rot="-3">Georgia Tech MSCS</div>
+            <div class="artifact af-1" data-depth="30" data-rot="-6">MCP Gateways</div>
+            <div class="artifact af-2" data-depth="22" data-rot="4">Production RAG</div>
+            <div class="artifact af-3" data-depth="26" data-rot="3">Invisible ⨯ Apollo</div>
+            <div class="artifact af-4" data-depth="34" data-rot="-5">Northern Trust · $1.2M saved</div>
+            <div class="artifact af-5" data-depth="20" data-rot="2">Observability</div>
+            <div class="artifact af-6" data-depth="28" data-rot="-3">Georgia Tech MSCS</div>
         </div>
         <p class="hero-hint" aria-hidden="true">The pieces move &mdash; drag them around</p>
         <div class="container">
@@ -1240,7 +1245,7 @@
                     </div>
             </div>
             <div class="polaroid">
-                <img src="me.jpg" alt="Akshay Bapat">
+                <div class="polaroid-frame"><img src="me.jpg" alt="Akshay Bapat"></div>
                 <span>hey, it's me</span>
             </div>
         </div>
@@ -1308,7 +1313,7 @@
                 </div>
                 
                 <div class="experience-card reveal">
-                    <img class="company-logo" src="logos/johndeere.svg" alt="John Deere logo" loading="lazy">
+                    <span class="company-logo-text">John Deere</span>
                         <span class="strip-num">04 / 08</span>
                     <h3 class="experience-title">Data and Analytics Intern</h3>
                     <p class="experience-company">John Deere</p>
@@ -1339,7 +1344,7 @@
                 </div>
 
                 <div class="experience-card reveal">
-                    <img class="company-logo" src="logos/gramener.png" alt="Gramener logo" loading="lazy">
+                    <span class="company-logo-text">Gramaner</span>
                         <span class="strip-num">06 / 08</span>
                     <h3 class="experience-title">Software Engineering Intern</h3>
                     <p class="experience-company">Gramaner</p>
@@ -1848,9 +1853,11 @@
             var chips = Array.prototype.slice.call(wall.querySelectorAll('.artifact'));
             var moving = [];
             var rafId = null;
+            var mx = 0, my = 0, tmx = 0, tmy = 0; // lerped mouse offsets, -0.5..0.5
 
             chips.forEach(function (chip) {
                 var st = { el: chip, x: 0, y: 0, vx: 0, vy: 0, rot: parseFloat(chip.getAttribute('data-rot')) || 0,
+                           depth: parseFloat(chip.getAttribute('data-depth')) || 24,
                            held: false, lastX: 0, lastY: 0 };
                 chip.__st = st;
                 apply(st);
@@ -1890,7 +1897,35 @@
             });
 
             function apply(st) {
-                st.el.style.transform = 'translate(' + st.x + 'px, ' + st.y + 'px) rotate(' + st.rot + 'deg)';
+                st.el.style.transform = 'translate(' + (st.x + mx * st.depth) + 'px, ' +
+                    (st.y + my * st.depth) + 'px) rotate(' + st.rot + 'deg)';
+            }
+
+            // Depth drift: while the hero is on screen, chips trail the cursor
+            // at their own depths — deepest layers move most.
+            if (!reduced && 'IntersectionObserver' in window) {
+                var parallaxRunning = false, pRaf = null;
+                function parallaxLoop() {
+                    mx += (tmx - mx) * 0.06;
+                    my += (tmy - my) * 0.06;
+                    chips.forEach(function (chip) { if (!chip.__st.held) apply(chip.__st); });
+                    if (parallaxRunning) pRaf = window.requestAnimationFrame(parallaxLoop);
+                }
+                new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        if (e.isIntersecting && !parallaxRunning) {
+                            parallaxRunning = true;
+                            pRaf = window.requestAnimationFrame(parallaxLoop);
+                        } else if (!e.isIntersecting && parallaxRunning) {
+                            parallaxRunning = false;
+                            if (pRaf) window.cancelAnimationFrame(pRaf);
+                        }
+                    });
+                }, { threshold: 0.05 }).observe(wall);
+                window.addEventListener('mousemove', function (e) {
+                    tmx = e.clientX / window.innerWidth - 0.5;
+                    tmy = e.clientY / window.innerHeight - 0.5;
+                }, { passive: true });
             }
 
             function tick() {
@@ -1916,6 +1951,55 @@
                     if (moving.length) tick();
                 });
             }
+        })();
+    </script>
+
+    <!-- Hero depth tilt: the title leans in 3D toward the cursor while the
+         signature and polaroid photo float at their own depths — inner
+         elements only, so the scroll-peel (which owns the outer wrappers)
+         never fights it. Skipped under prefers-reduced-motion. -->
+    <script>
+        (function () {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var title = document.querySelector('.hero-title');
+            var sig = document.querySelector('.hero-sig');
+            var photo = document.querySelector('.polaroid img');
+            var hero = document.getElementById('home');
+            if (!title || !hero) return;
+
+            var mx = 0, my = 0, tmx = 0, tmy = 0;
+            var running = false, rafId = null;
+
+            function loop() {
+                mx += (tmx - mx) * 0.07;
+                my += (tmy - my) * 0.07;
+                title.style.transform = 'perspective(950px) rotateX(' + (my * -5) + 'deg) rotateY(' + (mx * 7) + 'deg) translate3d(' + (mx * -12) + 'px, ' + (my * -8) + 'px, 0)';
+                if (sig) sig.style.transform = 'translate3d(' + (mx * -22) + 'px, ' + (my * -13) + 'px, 0) rotate(-3deg)';
+                if (photo) photo.style.transform = 'translate3d(' + (mx * 10) + 'px, ' + (my * 7) + 'px, 0) scale(1.06)';
+                if (running) rafId = window.requestAnimationFrame(loop);
+            }
+
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        if (e.isIntersecting && !running) {
+                            running = true;
+                            rafId = window.requestAnimationFrame(loop);
+                        } else if (!e.isIntersecting && running) {
+                            running = false;
+                            if (rafId) window.cancelAnimationFrame(rafId);
+                        }
+                    });
+                }, { threshold: 0.05 }).observe(hero);
+            } else {
+                running = true;
+                window.requestAnimationFrame(loop);
+            }
+
+            window.addEventListener('mousemove', function (e) {
+                tmx = e.clientX / window.innerWidth - 0.5;
+                tmy = e.clientY / window.innerHeight - 0.5;
+            }, { passive: true });
         })();
     </script>
 
