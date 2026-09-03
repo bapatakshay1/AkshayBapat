@@ -988,6 +988,23 @@
             inset: 0;
             width: 100%;
             height: 100%;
+            cursor: grab;
+        }
+
+        #cosmos.dragging { cursor: grabbing; }
+
+        .cosmos-hint {
+            position: absolute;
+            bottom: 26px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(165, 180, 252, 0.55);
+            pointer-events: none;
         }
 
         .contact-inner {
@@ -1457,12 +1474,13 @@
 
     <section id="contact">
         <canvas id="cosmos" aria-hidden="true"></canvas>
+        <p class="cosmos-hint" aria-hidden="true">Drag to explore the field</p>
         <div class="container contact-inner">
             <p class="section-eyebrow reveal">05 &mdash; Transmission</p>
             <h2 class="contact-title reveal">Let's build<br>the next big thing</h2>
             <p class="contact-annot reveal">say hello</p>
             <div class="contact-links reveal">
-                <a href="mailto:Bapat.akshay1@gmail.com">Bapat.akshay1@gmail.com</a>
+                <a href="mailto:Bapat.akshay1@gmail.com" id="copy-email" data-email="Bapat.akshay1@gmail.com">Bapat.akshay1@gmail.com</a>
                 <a href="https://www.linkedin.com/in/akshayabapat/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <a href="Akshay_Bapat_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
             </div>
@@ -1694,6 +1712,7 @@
             var STAR_COUNT = 260;
             var w = 0, h = 0, dpr = 1;
             var tiltX = 0, tiltY = 0, targetTiltX = 0, targetTiltY = 0;
+            var spin = 0, spinVel = 0;
 
             function size() {
                 dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -1737,7 +1756,7 @@
 
                 for (var i = 0; i < stars.length; i++) {
                     var st = stars[i];
-                    var ang = st.a + (t / 1000) * st.speed;
+                    var ang = st.a + (t / 1000) * st.speed + spin * (1 + 60 / st.r);
                     var x = cx + Math.cos(ang) * st.r + tiltX * (st.r * 0.03);
                     var y = cy + Math.sin(ang) * st.r * (st.ecc - 0.55) + tiltY * (st.r * 0.025);
                     if (x < -20 || x > w + 20 || y < -20 || y > h + 20) continue;
@@ -1753,6 +1772,8 @@
             function loop(t) {
                 tiltX += (targetTiltX - tiltX) * 0.04;
                 tiltY += (targetTiltY - tiltY) * 0.04;
+                spin += spinVel;
+                spinVel *= 0.95; // inertia decay after release
                 frame(t);
                 if (running) rafId = window.requestAnimationFrame(loop);
             }
@@ -1784,12 +1805,55 @@
                     targetTiltX = (e.clientX / window.innerWidth - 0.5) * 2;
                     targetTiltY = (e.clientY / window.innerHeight - 0.5) * 2;
                 }, { passive: true });
+
+                // Drag to explore: spinning the disk adds a shared angular
+                // offset with a little inertia after release.
+                var dragging = false, lastX = 0;
+                canvas.addEventListener('pointerdown', function (e) {
+                    dragging = true;
+                    lastX = e.clientX;
+                    canvas.classList.add('dragging');
+                    canvas.setPointerCapture(e.pointerId);
+                });
+                canvas.addEventListener('pointermove', function (e) {
+                    if (!dragging) return;
+                    spinVel = (e.clientX - lastX) * 0.0012;
+                    spin += spinVel;
+                    lastX = e.clientX;
+                });
+                function endDrag() {
+                    dragging = false;
+                    canvas.classList.remove('dragging');
+                }
+                canvas.addEventListener('pointerup', endDrag);
+                canvas.addEventListener('pointercancel', endDrag);
             }
 
             var rt = null;
             window.addEventListener('resize', function () {
                 clearTimeout(rt);
                 rt = setTimeout(function () { size(); seed(); if (reduced) frame(0); }, 200);
+            });
+        })();
+    </script>
+
+    <!-- Email pill copies the address; label flips briefly to confirm -->
+    <script>
+        (function () {
+            var btn = document.getElementById('copy-email');
+            if (!btn || !navigator.clipboard) return;
+            var original = btn.textContent;
+            var timer = null;
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                navigator.clipboard.writeText(btn.getAttribute('data-email')).then(function () {
+                    btn.textContent = 'Copied to clipboard!';
+                    clearTimeout(timer);
+                    timer = setTimeout(function () { btn.textContent = original; }, 1800);
+                }, function () {
+                    // clipboard blocked: fall back to the normal mailto
+                    window.location.href = btn.href;
+                });
             });
         })();
     </script>
