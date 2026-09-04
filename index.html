@@ -122,11 +122,12 @@
             nav .links a { font-size: 12px; padding: 7px 10px; }
         }
         
-        /* ---- Sticker-bombed laptop hero: a brushed-metal lid that opens on
-           scroll (rotateX scrub, hinge at the bottom edge) to reveal the
-           "screen" carrying the intro. ---- */
+        /* ---- Sticker-bombed laptop hero, properly 3D: a base that stays
+           on the desk (keyboard visible as it opens), a lid with two faces —
+           stickers outside, screen inside — hinged at the rear, viewed from a
+           look-down camera that flattens as the lid opens. ---- */
         .laptop-scene {
-            height: 240vh;
+            height: 260vh;
             position: relative;
         }
 
@@ -135,29 +136,116 @@
             top: 0;
             height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
-            perspective: 1600px;
+            padding-bottom: 9vh;
+            perspective: 1500px;
+            perspective-origin: 50% 34%;
+            overflow: hidden;
         }
 
-        .laptop {
+        .laptop-3d {
             position: relative;
-            width: min(1080px, 92vw);
-            height: min(680px, 76vh);
+            width: min(880px, 88vw);
+            height: min(540px, 60vh);
+            transform-style: preserve-3d;
+            transform: rotateX(-6deg);
         }
 
-        .screen-half {
+        /* base: extends from the rear hinge toward the viewer, flat on the
+           desk; carries the keyboard + trackpad seen once the lid lifts */
+        .lap-base {
+            position: absolute;
+            left: 1.5%;
+            right: 1.5%;
+            top: 0;
+            height: 400px;
+            transform-origin: 50% 0;
+            transform-style: preserve-3d;
+            transform: rotateX(64deg);
+            border-radius: 18px;
+            background: linear-gradient(180deg, #33363f, #2a2d35 70%, #24262e);
+            border: 1px solid #484d5b;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+            will-change: transform;
+        }
+
+        .kb {
+            position: absolute;
+            left: 7%;
+            right: 7%;
+            top: 9%;
+            height: 52%;
+            border-radius: 10px;
+            background:
+                repeating-linear-gradient(0deg, rgba(10, 10, 14, 0.9) 0 26px, rgba(70, 74, 88, 0.5) 26px 30px),
+                repeating-linear-gradient(90deg, rgba(10, 10, 14, 0.9) 0 54px, rgba(70, 74, 88, 0.5) 54px 58px),
+                #14151c;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .trackpad {
+            position: absolute;
+            left: 33%;
+            right: 33%;
+            bottom: 6%;
+            height: 26%;
+            border-radius: 10px;
+            background: linear-gradient(180deg, #2e313a, #262932);
+            border: 1px solid #454a58;
+        }
+
+        .base-front {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -13px;
+            height: 13px;
+            transform-origin: 50% 0;
+            transform: rotateX(-92deg);
+            background: linear-gradient(180deg, #3d414d, #1d1f26);
+            border-radius: 0 0 14px 14px;
+        }
+
+        .lid-group {
+            position: absolute;
+            inset: 0;
+            transform-origin: 50% 0;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .lid-face {
             position: absolute;
             inset: 0;
             border-radius: 22px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        /* outer shell: brushed space-gray aluminum, sticker-bombed */
+        .lid-outer {
+            border: 1px solid #4a4f5e;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.07), transparent 55%),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px),
+                linear-gradient(115deg, #2c2f38, #3e4250 45%, #23252d 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -14px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        /* inner face: the display. rotateX(180) puts it on the far side of the
+           plane, scaleY(-1) un-flips the content so it reads upright once the
+           lid swings past vertical. */
+        .lid-inner {
+            transform: rotateX(180deg);
             background: #08080f;
-            border: 1px solid rgba(129, 140, 248, 0.3);
-            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(99, 102, 241, 0.07);
+            border: 1px solid rgba(129, 140, 248, 0.35);
+            box-shadow: inset 0 0 70px rgba(99, 102, 241, 0.09);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px;
-            overflow: hidden;
+            padding: 28px;
         }
 
         .webcam {
@@ -174,40 +262,31 @@
 
         .screen-content {
             will-change: opacity, filter;
+            max-height: 100%;
         }
 
-        .lid {
+        .desk-shadow {
             position: absolute;
-            inset: 0;
-            border-radius: 22px;
-            transform-origin: 50% 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            border: 1px solid #4a4f5e;
-            overflow: hidden;
-            z-index: 3;
-            will-change: transform, opacity;
-            /* brushed space-gray aluminum */
-            background:
-                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.028) 0 1px, transparent 1px 3px),
-                linear-gradient(105deg, #2a2d36, #3c404d 45%, #22242c 100%);
-            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
-            /* no-JS fallback: lid rests open so the intro is never locked away;
-               the scroll script closes it immediately on load */
-            transform: rotateX(-95deg);
-            opacity: 0;
+            bottom: 6vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(920px, 92vw);
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(0, 0, 0, 0.65), transparent 70%);
+            filter: blur(14px);
         }
 
         .tape {
             position: absolute;
             left: 50%;
-            top: 42%;
+            top: 44%;
             transform: translateX(-50%) rotate(-2deg);
             background: #e8e2cf;
             color: #23211c;
             font-family: 'Permanent Marker', cursive;
-            font-size: clamp(17px, 2vw, 24px);
-            padding: 10px 34px;
+            font-size: clamp(16px, 1.9vw, 23px);
+            padding: 9px 32px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
             clip-path: polygon(1.5% 0, 98.5% 4%, 100% 30%, 98% 100%, 2% 96%, 0 65%);
             white-space: nowrap;
@@ -303,15 +382,18 @@
 
         .artifact {
             position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 9px;
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
-            font-size: 16px;
-            color: #16161c;
-            background: var(--c, #ffd54a);
-            border: 3px solid #fff;
-            border-radius: 999px;
-            padding: 12px 24px;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+            font-size: 14px;
+            color: #1c1c22;
+            background: #fbfaf6;
+            /* die-cut vinyl: irregular blob edge + lift shadow */
+            border-radius: 46% 54% 52% 48% / 55% 47% 53% 45%;
+            padding: 13px 20px;
+            box-shadow: 0 7px 16px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
             white-space: nowrap;
             pointer-events: auto;
             cursor: grab;
@@ -319,6 +401,18 @@
             user-select: none;
             -webkit-user-select: none;
             will-change: transform;
+        }
+
+        .artifact img {
+            width: 22px;
+            height: 22px;
+            display: block;
+        }
+
+        .artifact.txt {
+            background: var(--c, #ffd54a);
+            border-radius: 12px;
+            border: 2.5px solid #fbfaf6;
         }
 
         .artifact.held { cursor: grabbing; }
@@ -338,16 +432,16 @@
             z-index: 2;
         }
 
-        .st-1 { left: 7%;  top: 10%; transform: rotate(-8deg); }
-        .st-2 { left: 24%; top: 6%; transform: rotate(5deg); }
-        .st-3 { right: 22%; top: 7%; transform: rotate(-4deg); }
-        .st-4 { right: 24%; top: 22%; transform: rotate(7deg); }
-        .st-5 { left: 10%; top: 38%; transform: rotate(-6deg); }
-        .st-6 { left: 30%; bottom: 26%; transform: rotate(3deg); }
-        .st-7 { right: 12%; bottom: 30%; transform: rotate(-3deg); }
-        .st-8 { left: 6%;  bottom: 9%; transform: rotate(6deg); }
-        .st-9 { right: 28%; bottom: 8%; transform: rotate(-7deg); }
-        .st-10 { right: 6%;  top: 44%; transform: rotate(4deg); }
+        .st-1 { left: 6%;  top: 9%; transform: rotate(-8deg); }
+        .st-2 { left: 26%; top: 5%; transform: rotate(5deg); }
+        .st-3 { right: 24%; top: 7%; transform: rotate(-4deg); }
+        .st-4 { right: 6%; top: 16%; transform: rotate(7deg); }
+        .st-5 { left: 9%;  top: 42%; transform: rotate(-6deg); }
+        .st-6 { right: 8%; top: 46%; transform: rotate(4deg); }
+        .st-7 { left: 22%; bottom: 12%; transform: rotate(-5deg); }
+        .st-8 { right: 22%; bottom: 9%; transform: rotate(6deg); }
+        .st-9 { left: 41%; top: 13%; transform: rotate(-7deg); }
+        .st-10 { right: 40%; bottom: 26%; transform: rotate(3deg); }
 
         @media (max-width: 768px) {
             .st-2, .st-4, .st-6, .st-9, .st-10 { display: none; }
@@ -1283,12 +1377,14 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            /* no scroll scrub: laptop rests open, scene loses its runway */
+            /* no scroll scrub: show the open screen flat, no rig */
             .laptop-scene { height: auto; padding: 120px 0 60px; }
-            .laptop-sticky { position: static; height: auto; perspective: none; }
-            .laptop { height: auto; min-height: 620px; }
-            .lid { display: none; }
-            .hero-hint { display: none; }
+            .laptop-sticky { position: static; height: auto; perspective: none; padding-bottom: 0; }
+            .laptop-3d { height: auto; min-height: 620px; transform: none !important; }
+            .lap-base, .desk-shadow, .hero-hint { display: none; }
+            .lid-group { position: relative; transform: none !important; }
+            .lid-outer { display: none; }
+            .lid-inner { position: relative; transform: none; }
             .aurora { animation: none !important; }
             .title-inner {
                 transform: none;
@@ -1338,11 +1434,37 @@
             <div class="parallax-layer" data-speed="0.3"><div class="orb orb-2"></div></div>
             <div class="ghost-num" data-lag="0.24" data-tilt="-8">01</div>
         </div>
+             <div class="desk-shadow" aria-hidden="true"></div>
         <div class="laptop-sticky">
-            <div class="laptop">
-                <div class="screen-half">
-                    <span class="webcam" aria-hidden="true"></span>
-                    <div class="screen-content hero-inner">
+            <div class="laptop-3d" id="laptop3d">
+                <div class="lap-base" id="lapBase">
+                    <div class="kb"></div>
+                    <div class="trackpad"></div>
+                    <div class="base-front"></div>
+                </div>
+                <div class="lid-group" id="lidGroup">
+                    <div class="lid-face lid-outer">
+                        <div class="artifact-wall">
+                        <div class="artifact st-1" data-rot="-8" data-depth="30"><img src="logos/st-docker.svg" alt=""><span>Docker</span></div>
+                        <div class="artifact st-2" data-rot="5" data-depth="24"><img src="logos/st-python.svg" alt=""><span>Python</span></div>
+                        <div class="artifact st-3" data-rot="-4" data-depth="28"><img src="logos/st-nextdotjs.svg" alt=""><span>Next.js</span></div>
+                        <div class="artifact st-4" data-rot="7" data-depth="22"><img src="logos/st-langchain.svg" alt=""><span>LangChain</span></div>
+                        <div class="artifact st-5" data-rot="-6" data-depth="26"><img src="logos/st-kubernetes.svg" alt=""><span>Kubernetes</span></div>
+                        <div class="artifact st-6" data-rot="4" data-depth="20"><img src="logos/st-terraform.svg" alt=""><span>Terraform</span></div>
+                        <div class="artifact st-7" data-rot="-5" data-depth="28"><img src="logos/st-openai.svg" alt=""><span>GPT-4o</span></div>
+                        <div class="artifact st-8" data-rot="6" data-depth="24"><img src="logos/st-fastapi.svg" alt=""><span>FastAPI</span></div>
+                        <div class="artifact txt st-9" data-rot="-7" data-depth="26" style="--c: #ffd54a;"><span>MCP</span></div>
+                        <div class="artifact txt st-10" data-rot="3" data-depth="22" style="--c: #ff5b8f;"><span>RAG</span></div>
+                        </div>
+                        <div class="tape">Akshay Bapat &middot; AI Systems Builder</div>
+                        <div class="polaroid">
+                            <div class="polaroid-frame"><img src="me.jpg" alt="Akshay Bapat"></div>
+                            <span>hey, it's me</span>
+                        </div>
+                    </div>
+                    <div class="lid-face lid-inner">
+                        <span class="webcam" aria-hidden="true"></span>
+                        <div class="screen-content hero-inner">
                         <p class="section-eyebrow">01 &mdash; Forward Deployed Engineer &middot; Princeton, NJ</p>
                         <h1 class="hero-title">AI Systems<br>Builder</h1>
                         <p class="hero-sig">Akshay Bapat</p>
@@ -1391,31 +1513,13 @@
                                 <div class="education-degree">BS Computer Engineering</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="lid" id="lid">
-                    <div class="artifact-wall">
-                    <div class="artifact st-1" data-rot="-8" data-depth="34" style="--c: #ffd54a;">MCP</div>
-                    <div class="artifact st-2" data-rot="5" data-depth="26" style="--c: #ff2c75;">RAG</div>
-                    <div class="artifact st-3" data-rot="-4" data-depth="30" style="--c: #58c4ff;">Next.js</div>
-                    <div class="artifact st-4" data-rot="7" data-depth="22" style="--c: #9dff5b;">LangChain</div>
-                    <div class="artifact st-5" data-rot="-6" data-depth="28" style="--c: #22d3ee;">Docker</div>
-                    <div class="artifact st-6" data-rot="3" data-depth="24" style="--c: #a5b4fc;">Python</div>
-                    <div class="artifact st-7" data-rot="-3" data-depth="32" style="--c: #f4f2ec;">GPT-4o</div>
-                    <div class="artifact st-8" data-rot="6" data-depth="20" style="--c: #ff8a3d;">Kubernetes</div>
-                    <div class="artifact st-9" data-rot="-7" data-depth="26" style="--c: #7ef0c0;">FastAPI</div>
-                    <div class="artifact st-10" data-rot="4" data-depth="28" style="--c: #c99cff;">Terraform</div>
-                    </div>
-                    <div class="tape">Akshay Bapat &middot; AI Systems Builder</div>
-                    <div class="polaroid">
-                        <div class="polaroid-frame"><img src="me.jpg" alt="Akshay Bapat"></div>
-                        <span>hey, it's me</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <p class="hero-hint" aria-hidden="true">Scroll to open &middot; stickers are draggable</p>
         </div>
-    </section>
+    tion>
     
     <section id="experience">
         <div class="section-orbs" aria-hidden="true">
@@ -1729,7 +1833,7 @@
             // absolutely-positioned, normally-scrolling container.
             var layers = Array.prototype.slice.call(document.querySelectorAll('.parallax-layer'));
             var ghosts = Array.prototype.slice.call(document.querySelectorAll('.ghost-num'));
-            var lid = document.getElementById('lid');
+            var lidGroup = document.getElementById('lidGroup');
             var laptopScene = document.querySelector('.laptop-scene');
             var screenContent = document.querySelector('.screen-content');
             var expTexts = Array.prototype.slice.call(document.querySelectorAll('.exp-text'));
@@ -1780,20 +1884,23 @@
                     ghost.style.transform = 'translate3d(0, ' + (top * lag) + 'px, 0) rotate(' + tilt + 'deg)';
                 });
 
-                // Laptop lid: scrubbed open by scroll through the hero's extra
-                // runway — hinge at the bottom edge, screen brightening as it
-                // opens, stickers losing pointer events once mostly open.
-                if (lid && laptopScene) {
+                // Laptop rig: scroll scrubs three linked rotations — the camera
+                // pose flattens (-48° -> -8°) while the lid swings from flat on
+                // the base (world 90°) past vertical (world 168°), and the base
+                // counter-rotates each frame to stay glued to the desk.
+                if (lidGroup && laptopScene) {
                     var runway = laptopScene.offsetHeight - vh;
                     var p = runway > 0 ? Math.max(0, Math.min(1, scrollY / runway)) : 1;
-                    var ang = p * 102;
-                    lid.style.transform = 'rotateX(' + (-ang) + 'deg)';
-                    lid.style.opacity = ang > 92 ? 0 : 1;
-                    lid.style.pointerEvents = ang > 55 ? 'none' : '';
+                    // display-model pose: lid ajar at 40° showing the sticker
+                    // face, swinging over the rear hinge to 172° where the
+                    // inner display (flipped child) lands face-on to the viewer
+                    lidGroup.style.transform = 'rotateX(' + (40 + 132 * p) + 'deg)';
                     if (screenContent) {
                         screenContent.style.opacity = (0.3 + 0.7 * p).toFixed(3);
                         screenContent.style.filter = 'brightness(' + (0.5 + 0.5 * p).toFixed(3) + ')';
                     }
+                    var wall = document.querySelector('.artifact-wall');
+                    if (wall) wall.style.pointerEvents = p > 0.45 ? 'none' : '';
                 }
 
                 if (scrubWords.length) {
