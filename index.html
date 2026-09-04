@@ -1100,6 +1100,102 @@
         }
 
 
+
+        /* ---- mbds-style experience: one big tinted tile per company, role
+           text beside it fading in and out with scroll position ---- */
+        .exp-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 4vh;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .exp-row {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 56px;
+            align-items: center;
+            min-height: 74vh;
+        }
+
+        .exp-row:nth-child(2n) .exp-tile { order: 2; }
+
+        .exp-tile {
+            position: relative;
+            height: 60vh;
+            min-height: 380px;
+            border-radius: 28px;
+            border: 1px solid rgba(129, 140, 248, 0.22);
+            background:
+                radial-gradient(ellipse at 30% 25%, var(--tint), transparent 65%),
+                rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* faint grid inside each tile — same drafting language as the site */
+        .exp-tile::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(165, 180, 252, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(165, 180, 252, 0.06) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+
+        .exp-tile-logo {
+            height: 64px;
+            width: auto;
+            max-width: 70%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.95;
+        }
+
+        .exp-tile-word {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(34px, 3.4vw, 52px);
+            letter-spacing: -0.01em;
+            color: #fff;
+            opacity: 0.95;
+        }
+
+        .exp-tile-meta {
+            position: absolute;
+            bottom: 22px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(199, 203, 232, 0.6);
+        }
+
+        .exp-text {
+            will-change: opacity, transform;
+        }
+
+        .exp-text .strip-num { display: block; }
+
+        @media (max-width: 900px) {
+            .exp-row {
+                grid-template-columns: 1fr;
+                gap: 28px;
+                min-height: auto;
+                padding: 6vh 0;
+            }
+            .exp-row:nth-child(2n) .exp-tile { order: 0; }
+            .exp-tile { height: 34vh; min-height: 240px; }
+        }
+
         /* The hero peel writes transform/opacity inline from the scroll loop */
         .polaroid,
         .hero-inner {
@@ -1257,145 +1353,146 @@
             <div class="ghost-num" data-lag="0.2" data-tilt="6">02</div>
         </div>
         <div class="container">
-            <p class="section-eyebrow reveal">02 — Career</p>
+            <p class="section-eyebrow reveal">02 &mdash; Career</p>
             <h2 class="section-title reveal"><span class="title-mask"><span class="title-inner">Work Experience</span></span></h2>
             <p class="section-annot reveal">the journey so far</p>
-            <div class="glass-strip-wrap reveal">
-                <button class="strip-arrow strip-prev" aria-label="Previous role">&#8592;</button>
-                <button class="strip-arrow strip-next" aria-label="Next role">&#8594;</button>
-                <div class="glass-strip">
-                <div class="experience-card reveal">
-                    <img class="company-logo" src="logos/invisible.svg" alt="Invisible Technologies logo" loading="lazy">
-                        <span class="strip-num">01 / 08</span>
-                    <h3 class="experience-title">Forward Deployed Engineer</h3>
-                    <p class="experience-company">Invisible Technologies · Apollo Global Management</p>
-                    <p class="experience-date">2026 - Present</p>
-                    <p class="experience-location">New York, NY</p>
-                    <div class="experience-description">
-                        <ul>
+            <div class="exp-rows">
+                <div class="exp-row">
+                    <div class="exp-tile reveal" style="--tint: rgba(99,102,241,0.35);">
+                        <img class="exp-tile-logo" src="logos/invisible.svg" alt="Invisible Technologies logo" loading="lazy">
+                        <span class="exp-tile-meta">New York, NY &middot; 2026 - Present</span>
+                    </div>
+                    <div class="exp-text">
+                        <span class="strip-num">01 / 07</span>
+                        <h3 class="experience-title">Forward Deployed Engineer</h3>
+                        <p class="experience-company">Invisible Technologies · Apollo Global Management</p>
+                        <div class="experience-description">
+                            <ul>
                             <li>Designed and shipped an MCP authorization gateway routing AI agents to downstream tool servers (Workday, ServiceNow, HR knowledge, compliance) with Okta JWT validation, tool-scope filtering, auth elicitation flows, and structured audit logging &mdash; design to production in 6 weeks</li>
                             <li>Delivered a production RAG compliance chatbot (Azure AI Search + GPT-4o, FastAPI, Next.js) with 2,300+ monthly users, exposed to agents via MCP so Claude/Cursor-style clients query grounded, cited policy answers &mdash; 99% accuracy measured by a custom eval harness</li>
                             <li>Established LLM observability as a practice at Apollo &mdash; pitched and demoed it to the AI engineering org, then authored the shared framework (corptech-ai-observability) adopted across 6+ services, standardizing Datadog LLM Observability, OpenTelemetry tracing, and PII redaction</li>
                             <li>Currently building a remediation agent that detects latency spikes, bad retrievals, and unhealthy usage signals, proposes fixes, and executes approved remediations through the MCP gateway with human-approval gates and full audit trails</li>
                             <li>Partner directly with Apollo stakeholders across compliance, HR, and engineering to scope deployments, run demos, and drive adoption as the embedded technical owner of the AI agent platform</li>
                         </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div class="experience-card reveal">
-                    <img class="company-logo" src="logos/northerntrust.svg" alt="Northern Trust logo" loading="lazy">
-                        <span class="strip-num">02 / 08</span>
-                    <h3 class="experience-title">AI Developer</h3>
-                    <p class="experience-company">Northern Trust</p>
-                    <p class="experience-date">2023 - 2026</p>
-                    <p class="experience-location">Chicago, IL</p>
-                    <div class="experience-description">
-                        <ul>
+                <div class="exp-row">
+                    <div class="exp-tile reveal" style="--tint: rgba(165,180,252,0.30);">
+                        <img class="exp-tile-logo" src="logos/northerntrust.svg" alt="Northern Trust logo" loading="lazy">
+                        <span class="exp-tile-meta">Chicago, IL &middot; 2023 - 2026</span>
+                    </div>
+                    <div class="exp-text">
+                        <span class="strip-num">02 / 07</span>
+                        <h3 class="experience-title">AI Developer</h3>
+                        <p class="experience-company">Northern Trust</p>
+                        <div class="experience-description">
+                            <ul>
                             <li>Architected AI system using distributed agents, Python, and LLMs (GPT-4, LangChain, Autogen) that automated legacy code migration, reducing manual conversion time by 85% across 500K+ lines of code and saving $1.2M in engineering costs &mdash; with custom evals for accuracy and reliability and prompt tuning improving model outputs by 15%</li>
                             <li>Built an enterprise ML-driven classification pipeline for SNOW incident tickets using Azure Machine Learning and Cognitive Search with a RAG framework, reducing triage/resolution time and enabling natural-language Q&A for support staff</li>
                             <li>Orchestrated cloud infrastructure on Azure using Kubernetes, Terraform, and Docker, reducing cloud costs while improving system reliability and scalability</li>
                         </ul>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="experience-card reveal">
-                    <img class="company-logo" src="logos/oracle.svg" alt="Oracle logo" loading="lazy">
-                        <span class="strip-num">03 / 08</span>
-                    <h3 class="experience-title">Technical Product Management Intern</h3>
-                    <p class="experience-company">Oracle</p>
-                    <p class="experience-date">May 2022 - August 2022</p>
-                    <p class="experience-location">Seattle, WA</p>
-                    <div class="experience-description">
-                        <ul>
+
+                <div class="exp-row">
+                    <div class="exp-tile reveal" style="--tint: rgba(255,44,117,0.22);">
+                        <img class="exp-tile-logo" src="logos/oracle.svg" alt="Oracle logo" loading="lazy">
+                        <span class="exp-tile-meta">Seattle, WA &middot; May 2022 - August 2022</span>
+                    </div>
+                    <div class="exp-text">
+                        <span class="strip-num">03 / 07</span>
+                        <h3 class="experience-title">Technical Product Management Intern</h3>
+                        <p class="experience-company">Oracle</p>
+                        <div class="experience-description">
+                            <ul>
                             <li>Designed dashboard used for Oracle CRM Billing embedded w/ invoice hyperlink using OCI Data Pipeline implementing dual-write data migration workflow</li>
                             <li>Developed automated data reporting to optimize product KPI tracking saving over 1800 minutes per week for PM's</li>
                             <li>Established CI/CD pipelines with Kubernetes to enable automated security scanning compliance checks</li>
                         </ul>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="experience-card reveal">
-                    <span class="company-logo-text">John Deere</span>
-                        <span class="strip-num">04 / 08</span>
-                    <h3 class="experience-title">Data and Analytics Intern</h3>
-                    <p class="experience-company">John Deere</p>
-                    <p class="experience-date">August 2021 - November 2021</p>
-                    <p class="experience-location">Waterloo, IA</p>
-                    <div class="experience-description">
-                        <ul>
+
+                <div class="exp-row">
+                    <div class="exp-tile reveal" style="--tint: rgba(129,140,248,0.30);">
+                        <span class="exp-tile-word">John Deere</span>
+                        <span class="exp-tile-meta">Waterloo, IA &middot; August 2021 - November 2021</span>
+                    </div>
+                    <div class="exp-text">
+                        <span class="strip-num">04 / 07</span>
+                        <h3 class="experience-title">Data and Analytics Intern</h3>
+                        <p class="experience-company">John Deere</p>
+                        <div class="experience-description">
+                            <ul>
                             <li>Deployed ML Python script within Alteryx utilizing ODBC connection for SAP Hana Data pipeline along with LSTM networks for predicting tractor drivetrain failure metrics</li>
                             <li>Ran Time Series Analysis given heat loss impact on engine power generation over time to optimize machine utility and crop harvest by over 50%</li>
                             <li>Converted end-to-end analytics tests into Terraform infrastructure-as-code, enhancing automation</li>
                         </ul>
-                    </div>
-                </div>
-                
-                <div class="experience-card reveal">
-                    <img class="company-logo" src="logos/pwc.svg" alt="PwC logo" loading="lazy">
-                        <span class="strip-num">05 / 08</span>
-                    <h3 class="experience-title">Technology Intern</h3>
-                    <p class="experience-company">PricewaterhouseCoopers</p>
-                    <p class="experience-date">June 2021 - July 2021</p>
-                    <p class="experience-location">New York, NY</p>
-                    <div class="experience-description">
-                        <ul>
-                            <li>Analyzed and collected data using Pandas and SciKit-Learn Random Forest algorithms to build regression model that can predict details about client case outcomes</li>
-                            <li>Provided clients with more accurate forecasting enabling their executive teams to make informed strategic decisions, reduce operational uncertainty, and allocate resources more effectively towards their business units</li>
-                        </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div class="experience-card reveal">
-                    <span class="company-logo-text">Gramaner</span>
-                        <span class="strip-num">06 / 08</span>
-                    <h3 class="experience-title">Software Engineering Intern</h3>
-                    <p class="experience-company">Gramaner</p>
-                    <p class="experience-date">November 2020 - March 2021</p>
-                    <p class="experience-location">Princeton, NJ</p>
-                    <div class="experience-description">
-                        <ul>
+                <div class="exp-row">
+                    <div class="exp-tile reveal" style="--tint: rgba(67,56,202,0.40);">
+                        <img class="exp-tile-logo" src="logos/pwc.svg" alt="PwC logo" loading="lazy">
+                        <span class="exp-tile-meta">New York, NY &middot; June 2021 - July 2021</span>
+                    </div>
+                    <div class="exp-text">
+                        <span class="strip-num">05 / 07</span>
+                        <h3 class="experience-title">Technology Intern</h3>
+                        <p class="experience-company">PricewaterhouseCoopers</p>
+                        <div class="experience-description">
+                            <ul>
+                            <li>Analyzed and collected data using Pandas and SciKit-Learn Random Forest algorithms to build regression model that can predict details about client case outcomes</li>
+                            <li>Provided clients with more accurate forecasting enabling their executive teams to make informed strategic decisions, reduce operational uncertainty, and allocate resources more effectively towards their business units</li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exp-row">
+                    <div class="exp-tile reveal" style="--tint: rgba(99,102,241,0.30);">
+                        <span class="exp-tile-word">Gramaner</span>
+                        <span class="exp-tile-meta">Princeton, NJ &middot; November 2020 - March 2021</span>
+                    </div>
+                    <div class="exp-text">
+                        <span class="strip-num">06 / 07</span>
+                        <h3 class="experience-title">Software Engineering Intern</h3>
+                        <p class="experience-company">Gramaner</p>
+                        <div class="experience-description">
+                            <ul>
                             <li>Performed data mining on Gramaner geolocation data to analyze asset-related dealer opportunities in the U.S.</li>
                             <li>Designed data model and infrastructure of Gramaner new crime data app; served as subject matter expert</li>
                             <li>Developed backend of application with AWS DynamoDB; used GraphQL, Node.js, and ApolloServer to build APIs</li>
                         </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div class="experience-card reveal">
-                    <span class="company-logo-text">Instahub</span>
-                        <span class="strip-num">07 / 08</span>
-                    <h3 class="experience-title">Software Engineering Intern</h3>
-                    <p class="experience-company">Instahub</p>
-                    <p class="experience-date">May 2020 - August 2020</p>
-                    <p class="experience-location">Philadelphia, PA</p>
-                    <div class="experience-description">
-                        <ul>
+                <div class="exp-row">
+                    <div class="exp-tile reveal" style="--tint: rgba(129,140,248,0.28);">
+                        <span class="exp-tile-word">Instahub</span>
+                        <span class="exp-tile-meta">Philadelphia, PA &middot; May 2020 - August 2020</span>
+                    </div>
+                    <div class="exp-text">
+                        <span class="strip-num">07 / 07</span>
+                        <h3 class="experience-title">Software Engineering Intern</h3>
+                        <p class="experience-company">Instahub</p>
+                        <div class="experience-description">
+                            <ul>
                             <li>Led team of 10 interns on product efficiency improvement and lifecycle analysis of SoLAR device; analyzed material sustainability through data extraction of material wear over time and implemented end of life process strategy with manufacturer</li>
                             <li>Developed Python algorithm extracting SQL database of NY, NJ, PA statewide energy and resources utilization of 40,000 buildings for smart building operations</li>
                             <li>Cleaned data through performance metric, performed data modeling using Tableau to pull 30,000+ potential clientele</li>
                         </ul>
+                        </div>
                     </div>
                 </div>
-
-                <div class="experience-card reveal">
-                    <span class="company-logo-text">The Stack</span>
-                        <span class="strip-num">08 / 08</span>
-                    <h3 class="experience-title">Key Technologies</h3>
-                    <p class="experience-company">Technical Expertise</p>
-                    <div class="experience-description">
-                        <ul>
-                            <li>Machine Learning: Implemented large-scale ML systems using Autogen, LangChain, GPT-4, and custom ML pipelines</li>
-                            <li>Cloud & Infrastructure: Extensive experience with Databricks, Spark, Vertex AI, Kubernetes, and Azure</li>
-                            <li>Backend Development: Built robust microservices with Spring Boot, Java, and event-driven architecture using Kafka</li>
-                            <li>Database & DevOps: Optimized SQL performance across Oracle, PostgreSQL databases with modern CI/CD practices</li>
-                        </ul>
-                    </div>
-                </div>
-                </div>
-                <div class="strip-dots" role="tablist" aria-label="Roles"></div>
             </div>
         </div>
-</section>
+    </section>
     
     <section id="projects">
         <div class="section-orbs" aria-hidden="true">
@@ -1564,6 +1661,7 @@
             var ghosts = Array.prototype.slice.call(document.querySelectorAll('.ghost-num'));
             var heroCard = document.querySelector('.polaroid');
             var heroText = document.querySelector('.hero-inner');
+            var expTexts = Array.prototype.slice.call(document.querySelectorAll('.exp-text'));
 
             // About statement scrub: split into word spans whose opacity ramps
             // with scroll progress — sasha-style text reveal. Reduced-motion
@@ -1631,6 +1729,17 @@
                         heroText.style.visibility = gone;
                     }
                 }
+
+                // Experience text fades in as its row approaches the viewport
+                // center and back out as it leaves — the mbds caption move.
+                expTexts.forEach(function (el) {
+                    var r = el.getBoundingClientRect();
+                    var dist = Math.abs(r.top + r.height / 2 - vh / 2);
+                    var op = 1 - Math.max(0, (dist - vh * 0.14)) / (vh * 0.42);
+                    op = Math.max(0.06, Math.min(1, op));
+                    el.style.opacity = op;
+                    el.style.transform = 'translateY(' + ((1 - op) * 18) + 'px)';
+                });
 
                 if (scrubWords.length) {
                     var sr = statement.getBoundingClientRect();
