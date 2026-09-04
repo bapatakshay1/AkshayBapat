@@ -11,7 +11,7 @@
          script), Space Grotesk (labels), Inter body -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Great+Vibes&family=Inter:wght@400;600&family=Permanent+Marker&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Great+Vibes&family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -122,174 +122,12 @@
             nav .links a { font-size: 12px; padding: 7px 10px; }
         }
         
-        /* ---- Sticker-bombed laptop hero, properly 3D: a base that stays
-           on the desk (keyboard visible as it opens), a lid with two faces —
-           stickers outside, screen inside — hinged at the rear, viewed from a
-           look-down camera that flattens as the lid opens. ---- */
-        .laptop-scene {
-            height: 260vh;
-            position: relative;
-        }
-
-        .laptop-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 9vh;
-            perspective: 1500px;
-            perspective-origin: 50% 34%;
-            overflow: hidden;
-        }
-
-        .laptop-3d {
-            position: relative;
-            width: min(880px, 88vw);
-            height: min(540px, 60vh);
-            transform-style: preserve-3d;
-            transform: rotateX(-6deg);
-        }
-
-        /* base: extends from the rear hinge toward the viewer, flat on the
-           desk; carries the keyboard + trackpad seen once the lid lifts */
-        .lap-base {
-            position: absolute;
-            left: 1.5%;
-            right: 1.5%;
-            top: 0;
-            height: 400px;
-            transform-origin: 50% 0;
-            transform-style: preserve-3d;
-            transform: rotateX(64deg);
-            border-radius: 18px;
-            background: linear-gradient(180deg, #33363f, #2a2d35 70%, #24262e);
-            border: 1px solid #484d5b;
-            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
-            will-change: transform;
-        }
-
-        .kb {
-            position: absolute;
-            left: 7%;
-            right: 7%;
-            top: 9%;
-            height: 52%;
-            border-radius: 10px;
-            background:
-                repeating-linear-gradient(0deg, rgba(10, 10, 14, 0.9) 0 26px, rgba(70, 74, 88, 0.5) 26px 30px),
-                repeating-linear-gradient(90deg, rgba(10, 10, 14, 0.9) 0 54px, rgba(70, 74, 88, 0.5) 54px 58px),
-                #14151c;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.7);
-        }
-
-        .trackpad {
-            position: absolute;
-            left: 33%;
-            right: 33%;
-            bottom: 6%;
-            height: 26%;
-            border-radius: 10px;
-            background: linear-gradient(180deg, #2e313a, #262932);
-            border: 1px solid #454a58;
-        }
-
-        .base-front {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -13px;
-            height: 13px;
-            transform-origin: 50% 0;
-            transform: rotateX(-92deg);
-            background: linear-gradient(180deg, #3d414d, #1d1f26);
-            border-radius: 0 0 14px 14px;
-        }
-
-        .lid-group {
-            position: absolute;
-            inset: 0;
-            transform-origin: 50% 0;
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .lid-face {
-            position: absolute;
-            inset: 0;
-            border-radius: 22px;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            overflow: hidden;
-        }
-
-        /* outer shell: brushed space-gray aluminum, sticker-bombed */
-        .lid-outer {
-            border: 1px solid #4a4f5e;
-            background:
-                radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.07), transparent 55%),
-                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px),
-                linear-gradient(115deg, #2c2f38, #3e4250 45%, #23252d 100%);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -14px 30px rgba(0, 0, 0, 0.35);
-        }
-
-        /* inner face: the display. rotateX(180) puts it on the far side of the
-           plane, scaleY(-1) un-flips the content so it reads upright once the
-           lid swings past vertical. */
-        .lid-inner {
-            transform: rotateX(180deg);
-            background: #08080f;
-            border: 1px solid rgba(129, 140, 248, 0.35);
-            box-shadow: inset 0 0 70px rgba(99, 102, 241, 0.09);
+        #home {
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 28px;
-        }
-
-        .webcam {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #1f2233;
-            box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.25);
-        }
-
-        .screen-content {
-            will-change: opacity, filter;
-            max-height: 100%;
-        }
-
-        .desk-shadow {
-            position: absolute;
-            bottom: 6vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: min(920px, 92vw);
-            height: 60px;
-            border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(0, 0, 0, 0.65), transparent 70%);
-            filter: blur(14px);
-        }
-
-        .tape {
-            position: absolute;
-            left: 50%;
-            top: 44%;
-            transform: translateX(-50%) rotate(-2deg);
-            background: #e8e2cf;
-            color: #23211c;
-            font-family: 'Permanent Marker', cursive;
-            font-size: clamp(16px, 1.9vw, 23px);
-            padding: 9px 32px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
-            clip-path: polygon(1.5% 0, 98.5% 4%, 100% 30%, 98% 100%, 2% 96%, 0 65%);
-            white-space: nowrap;
+            padding-top: 120px;
+            padding-bottom: 80px;
         }
 
         /* Type-first hero: giant condensed caps with a signature script
@@ -303,7 +141,7 @@
         .hero-title {
             font-family: 'Anton', 'Space Grotesk', sans-serif;
             font-weight: 400;
-            font-size: clamp(38px, 6.2vw, 88px);
+            font-size: clamp(64px, 12.5vw, 178px);
             line-height: 0.92;
             letter-spacing: 0.01em;
             text-transform: uppercase;
@@ -312,7 +150,7 @@
 
         .hero-sig {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(28px, 3vw, 44px);
+            font-size: clamp(40px, 5.4vw, 78px);
             color: #ff2c75;
             margin-top: -0.45em;
             transform: rotate(-3deg);
@@ -321,20 +159,20 @@
         }
 
         .profile-description {
-            font-size: clamp(12px, 1.15vw, 15px);
+            font-size: 16px;
             color: #b6bce0;
-            max-width: 62ch;
-            margin: 18px auto 20px;
-            line-height: 1.6;
+            max-width: 56ch;
+            margin: 38px auto 42px;
+            line-height: 1.7;
             text-align: center;
         }
 
         /* Photo as a tilted polaroid — personality over formality */
         .polaroid {
             position: absolute;
-            right: 7%;
-            top: 12%;
-            width: 138px;
+            right: -1%; /* container-relative: hangs just outside the content column */
+            top: 21%;
+            width: 168px;
             padding: 10px 10px 32px;
             background: #f4f2ec;
             transform: rotate(6deg);
@@ -366,8 +204,14 @@
             color: #333;
         }
 
-        @media (max-width: 768px) {
-            .polaroid { width: 96px; right: 4%; top: 8%; }
+        @media (max-width: 1280px) {
+            .polaroid {
+                position: relative;
+                right: auto;
+                top: auto;
+                margin: 44px auto 0;
+                transform: rotate(3deg);
+            }
         }
 
         /* Dimmed wall of real credentials floating behind the statement —
@@ -377,23 +221,20 @@
             inset: 0;
             overflow: hidden;
             pointer-events: none;
-            z-index: 1;
+            z-index: 2; /* stickers ride above the text so you can toss them anywhere */
         }
 
         .artifact {
             position: absolute;
-            display: flex;
-            align-items: center;
-            gap: 9px;
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
-            font-size: 14px;
-            color: #1c1c22;
-            background: #fbfaf6;
-            /* die-cut vinyl: irregular blob edge + lift shadow */
-            border-radius: 46% 54% 52% 48% / 55% 47% 53% 45%;
-            padding: 13px 20px;
-            box-shadow: 0 7px 16px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+            font-size: 15px;
+            color: rgba(165, 180, 252, 0.55);
+            background: rgba(24, 26, 44, 0.7);
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            border-radius: 10px;
+            padding: 14px 22px;
+            opacity: 0.45;
             white-space: nowrap;
             pointer-events: auto;
             cursor: grab;
@@ -401,25 +242,15 @@
             user-select: none;
             -webkit-user-select: none;
             will-change: transform;
+            transition: opacity 0.3s;
         }
 
-        .artifact img {
-            width: 22px;
-            height: 22px;
-            display: block;
-        }
-
-        .artifact.txt {
-            background: var(--c, #ffd54a);
-            border-radius: 12px;
-            border: 2.5px solid #fbfaf6;
-        }
-
-        .artifact.held { cursor: grabbing; }
+        .artifact:hover { opacity: 0.9; }
+        .artifact.held { cursor: grabbing; opacity: 1; }
 
         .hero-hint {
             position: absolute;
-            bottom: 26px;
+            bottom: 22px;
             left: 0;
             right: 0;
             text-align: center;
@@ -432,27 +263,22 @@
             z-index: 2;
         }
 
-        .st-1 { left: 6%;  top: 9%; transform: rotate(-8deg); }
-        .st-2 { left: 26%; top: 5%; transform: rotate(5deg); }
-        .st-3 { right: 24%; top: 7%; transform: rotate(-4deg); }
-        .st-4 { right: 6%; top: 16%; transform: rotate(7deg); }
-        .st-5 { left: 9%;  top: 42%; transform: rotate(-6deg); }
-        .st-6 { right: 8%; top: 46%; transform: rotate(4deg); }
-        .st-7 { left: 22%; bottom: 12%; transform: rotate(-5deg); }
-        .st-8 { right: 22%; bottom: 9%; transform: rotate(6deg); }
-        .st-9 { left: 41%; top: 13%; transform: rotate(-7deg); }
-        .st-10 { right: 40%; bottom: 26%; transform: rotate(3deg); }
+        .af-1 { left: 6%; top: 14%; transform: rotate(-6deg); }
+        .af-2 { right: 8%; top: 10%; transform: rotate(4deg); }
+        .af-3 { left: 12%; bottom: 18%; transform: rotate(3deg); }
+        .af-4 { right: 10%; bottom: 26%; transform: rotate(-5deg); }
+        .af-5 { left: 9%; top: 4%; transform: rotate(2deg); }
+        .af-6 { right: 30%; bottom: 8%; transform: rotate(-3deg); }
 
         @media (max-width: 768px) {
-            .st-2, .st-4, .st-6, .st-9, .st-10 { display: none; }
-            .artifact { font-size: 13px; padding: 9px 16px; border-width: 2px; }
+            .af-2, .af-3, .af-4, .af-5 { display: none; }
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 22px;
-            margin-bottom: 22px;
+            gap: 24px;
+            margin-bottom: 48px;
         }
         
         .social-link {
@@ -1377,14 +1203,6 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            /* no scroll scrub: show the open screen flat, no rig */
-            .laptop-scene { height: auto; padding: 120px 0 60px; }
-            .laptop-sticky { position: static; height: auto; perspective: none; padding-bottom: 0; }
-            .laptop-3d { height: auto; min-height: 620px; transform: none !important; }
-            .lap-base, .desk-shadow, .hero-hint { display: none; }
-            .lid-group { position: relative; transform: none !important; }
-            .lid-outer { display: none; }
-            .lid-inner { position: relative; transform: none; }
             .aurora { animation: none !important; }
             .title-inner {
                 transform: none;
@@ -1428,47 +1246,29 @@
         <a class="nav-mail" href="mailto:Bapat.akshay1@gmail.com">bapat.akshay1@gmail.com</a>
     </nav>
     
-    <section id="home" class="laptop-scene">
+    <section id="home" class="min-h-screen flex items-center pt-16">
         <div class="section-orbs" aria-hidden="true">
             <div class="parallax-layer" data-speed="0.15"><div class="orb orb-1"></div></div>
             <div class="parallax-layer" data-speed="0.3"><div class="orb orb-2"></div></div>
             <div class="ghost-num" data-lag="0.24" data-tilt="-8">01</div>
         </div>
-             <div class="desk-shadow" aria-hidden="true"></div>
-        <div class="laptop-sticky">
-            <div class="laptop-3d" id="laptop3d">
-                <div class="lap-base" id="lapBase">
-                    <div class="kb"></div>
-                    <div class="trackpad"></div>
-                    <div class="base-front"></div>
-                </div>
-                <div class="lid-group" id="lidGroup">
-                    <div class="lid-face lid-outer">
-                        <div class="artifact-wall">
-                        <div class="artifact st-1" data-rot="-8" data-depth="30"><img src="logos/st-docker.svg" alt=""><span>Docker</span></div>
-                        <div class="artifact st-2" data-rot="5" data-depth="24"><img src="logos/st-python.svg" alt=""><span>Python</span></div>
-                        <div class="artifact st-3" data-rot="-4" data-depth="28"><img src="logos/st-nextdotjs.svg" alt=""><span>Next.js</span></div>
-                        <div class="artifact st-4" data-rot="7" data-depth="22"><img src="logos/st-langchain.svg" alt=""><span>LangChain</span></div>
-                        <div class="artifact st-5" data-rot="-6" data-depth="26"><img src="logos/st-kubernetes.svg" alt=""><span>Kubernetes</span></div>
-                        <div class="artifact st-6" data-rot="4" data-depth="20"><img src="logos/st-terraform.svg" alt=""><span>Terraform</span></div>
-                        <div class="artifact st-7" data-rot="-5" data-depth="28"><img src="logos/st-openai.svg" alt=""><span>GPT-4o</span></div>
-                        <div class="artifact st-8" data-rot="6" data-depth="24"><img src="logos/st-fastapi.svg" alt=""><span>FastAPI</span></div>
-                        <div class="artifact txt st-9" data-rot="-7" data-depth="26" style="--c: #ffd54a;"><span>MCP</span></div>
-                        <div class="artifact txt st-10" data-rot="3" data-depth="22" style="--c: #ff5b8f;"><span>RAG</span></div>
-                        </div>
-                        <div class="tape">Akshay Bapat &middot; AI Systems Builder</div>
-                        <div class="polaroid">
-                            <div class="polaroid-frame"><img src="me.jpg" alt="Akshay Bapat"></div>
-                            <span>hey, it's me</span>
-                        </div>
-                    </div>
-                    <div class="lid-face lid-inner">
-                        <span class="webcam" aria-hidden="true"></span>
-                        <div class="screen-content hero-inner">
-                        <p class="section-eyebrow">01 &mdash; Forward Deployed Engineer &middot; Princeton, NJ</p>
+        <div class="artifact-wall" aria-hidden="true">
+            <div class="artifact af-1" data-depth="30" data-rot="-6">MCP Gateways</div>
+            <div class="artifact af-2" data-depth="22" data-rot="4">Production RAG</div>
+            <div class="artifact af-3" data-depth="26" data-rot="3">Invisible ⨯ Apollo</div>
+            <div class="artifact af-4" data-depth="34" data-rot="-5">Northern Trust · $1.2M saved</div>
+            <div class="artifact af-5" data-depth="20" data-rot="2">Observability</div>
+            <div class="artifact af-6" data-depth="28" data-rot="-3">Georgia Tech MSCS</div>
+        </div>
+        <p class="hero-hint" aria-hidden="true">The pieces move &mdash; drag them around</p>
+        <div class="container">
+            <div class="hero-inner">
+                    <div class="profile-content-text">
+                        <p class="section-eyebrow">01 — Forward Deployed Engineer · Princeton, NJ</p>
                         <h1 class="hero-title">AI Systems<br>Builder</h1>
                         <p class="hero-sig">Akshay Bapat</p>
-                        <p class="profile-description">I build the infrastructure that makes AI agents trustworthy in production &mdash; MCP authorization gateways, production RAG, and observability &mdash; at Invisible Technologies, embedded with Apollo Global Management. Previously at Northern Trust, I automated legacy code migration across 500K+ lines, saving $1.2M in engineering costs.</p>
+                        <p class="profile-description">I build the infrastructure that makes AI agents trustworthy in production — MCP authorization gateways, production RAG, and observability — at Invisible Technologies, embedded with Apollo Global Management. Previously at Northern Trust, I automated legacy code migration across 500K+ lines, saving $1.2M in engineering costs.</p>
+
                         <div class="social-links">
                             <a href="resume.html" class="social-link" title="View Resume">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1503,7 +1303,8 @@
                                 </svg>
                             </a>
                         </div>
-                        <div class="education-section">
+                        
+                        <div class="education-section reveal">
                             <div class="education-item">
                                 <div class="education-school">Georgia Tech</div>
                                 <div class="education-degree">MS Computer Science</div>
@@ -1513,13 +1314,38 @@
                                 <div class="education-degree">BS Computer Engineering</div>
                             </div>
                         </div>
+                        
+                        <div class="skills-container reveal">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">MCP</span>
+                            <span class="skill-tag">RAG</span>
+                            <span class="skill-tag">GPT-4o</span>
+                            <span class="skill-tag">FastAPI</span>
+                            <span class="skill-tag">Next.js</span>
+                            <span class="skill-tag">LangChain</span>
+                            <span class="skill-tag">Autogen</span>
+                            <span class="skill-tag">Azure AI Search</span>
+                            <span class="skill-tag">Datadog</span>
+                            <span class="skill-tag">OpenTelemetry</span>
+                            <span class="skill-tag">Kubernetes</span>
+                            <span class="skill-tag">Terraform</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">Databricks</span>
+                            <span class="skill-tag">Spark</span>
+                            <span class="skill-tag">Spring Boot</span>
+                            <span class="skill-tag">Kafka</span>
                         </div>
                     </div>
-                </div>
             </div>
-            <p class="hero-hint" aria-hidden="true">Scroll to open &middot; stickers are draggable</p>
+            <div class="polaroid">
+                <div class="polaroid-frame"><img src="me.jpg" alt="Akshay Bapat"></div>
+                <span>hey, it's me</span>
+            </div>
         </div>
-    tion>
+    </section>
     
     <section id="experience">
         <div class="section-orbs" aria-hidden="true">
@@ -1833,9 +1659,8 @@
             // absolutely-positioned, normally-scrolling container.
             var layers = Array.prototype.slice.call(document.querySelectorAll('.parallax-layer'));
             var ghosts = Array.prototype.slice.call(document.querySelectorAll('.ghost-num'));
-            var lidGroup = document.getElementById('lidGroup');
-            var laptopScene = document.querySelector('.laptop-scene');
-            var screenContent = document.querySelector('.screen-content');
+            var heroCard = document.querySelector('.polaroid');
+            var heroText = document.querySelector('.hero-inner');
             var expTexts = Array.prototype.slice.call(document.querySelectorAll('.exp-text'));
 
             // About statement scrub: split into word spans whose opacity ramps
@@ -1884,24 +1709,37 @@
                     ghost.style.transform = 'translate3d(0, ' + (top * lag) + 'px, 0) rotate(' + tilt + 'deg)';
                 });
 
-                // Laptop rig: scroll scrubs three linked rotations — the camera
-                // pose flattens (-48° -> -8°) while the lid swings from flat on
-                // the base (world 90°) past vertical (world 168°), and the base
-                // counter-rotates each frame to stay glued to the desk.
-                if (lidGroup && laptopScene) {
-                    var runway = laptopScene.offsetHeight - vh;
-                    var p = runway > 0 ? Math.max(0, Math.min(1, scrollY / runway)) : 1;
-                    // display-model pose: lid ajar at 40° showing the sticker
-                    // face, swinging over the rear hinge to 172° where the
-                    // inner display (flipped child) lands face-on to the viewer
-                    lidGroup.style.transform = 'rotateX(' + (40 + 132 * p) + 'deg)';
-                    if (screenContent) {
-                        screenContent.style.opacity = (0.3 + 0.7 * p).toFixed(3);
-                        screenContent.style.filter = 'brightness(' + (0.5 + 0.5 * p).toFixed(3) + ')';
+                // Hero depth-peel: photo and text linger at different rates and
+                // dissolve as the hero scrolls away — layers peeling off a
+                // stack. visibility guards clicks once fully faded, since an
+                // opacity:0 element would still swallow pointer events over
+                // the section that scrolls up beneath it.
+                if (scrollY < vh * 1.5) {
+                    var fade = Math.max(0, 1 - (scrollY / vh) * 1.15);
+                    var gone = fade <= 0.01 ? 'hidden' : '';
+                    if (heroCard) {
+                        // keep the polaroid's CSS tilt — inline transform replaces it
+                        heroCard.style.transform = 'translate3d(0, ' + (scrollY * 0.22) + 'px, 0) rotate(6deg)';
+                        heroCard.style.opacity = fade;
+                        heroCard.style.visibility = gone;
                     }
-                    var wall = document.querySelector('.artifact-wall');
-                    if (wall) wall.style.pointerEvents = p > 0.45 ? 'none' : '';
+                    if (heroText) {
+                        heroText.style.transform = 'translate3d(0, ' + (scrollY * 0.16) + 'px, 0)';
+                        heroText.style.opacity = fade;
+                        heroText.style.visibility = gone;
+                    }
                 }
+
+                // Experience text fades in as its row approaches the viewport
+                // center and back out as it leaves — the mbds caption move.
+                expTexts.forEach(function (el) {
+                    var r = el.getBoundingClientRect();
+                    var dist = Math.abs(r.top + r.height / 2 - vh / 2);
+                    var op = 1 - Math.max(0, (dist - vh * 0.14)) / (vh * 0.42);
+                    op = Math.max(0.06, Math.min(1, op));
+                    el.style.opacity = op;
+                    el.style.transform = 'translateY(' + ((1 - op) * 18) + 'px)';
+                });
 
                 if (scrubWords.length) {
                     var sr = statement.getBoundingClientRect();
@@ -2236,7 +2074,7 @@
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             var title = document.querySelector('.hero-title');
             var sig = document.querySelector('.hero-sig');
-            var photo = null;
+            var photo = document.querySelector('.polaroid img');
             var hero = document.getElementById('home');
             if (!title || !hero) return;
 
